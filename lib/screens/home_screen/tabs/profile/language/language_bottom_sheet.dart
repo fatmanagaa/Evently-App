@@ -43,4 +43,16 @@ var height = MediaQuery.of(context).size.height;
       ),
     );
   }
+  Widget getSelectedItemWidget({required String language}){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(language),
+        Icon(Icons.check)
+      ],
+    );
+  }
+  Widget getUnSelectedItemWidget({required String language}){
+    return Text(language );
+  }
 }

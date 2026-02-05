@@ -18,11 +18,11 @@ class OnboardingScreen extends StatelessWidget {
           children: [
             Center(child: Image.asset(AppAssets.creative, width: double.infinity)),
             SizedBox(height: 18),
-            Text('Personalize Your Experience', style: AppStyles.bold20Black),
+            Text('Personalize Your Experience', style: AppStyles.semi20Black),
             SizedBox(height: 8),
             Text(
               'Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.',
-              style: AppStyles.bold16secText,
+
             ),
             SizedBox(height: 16),
             Padding(
@@ -30,7 +30,7 @@ class OnboardingScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Language', style: AppStyles.bold18mainColor),
+                  Text('Language'),
                   SizedBox(width: 50),
                   Image.asset(AppAssets.english),
                   Image.asset(AppAssets.arabic),
@@ -43,7 +43,7 @@ class OnboardingScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Theme', style: AppStyles.bold18mainColor),
+                  Text('Theme', ),
                   SizedBox(width: 50),
                   Image.asset(AppAssets.light),
                   Image.asset(AppAssets.dark),
@@ -60,7 +60,7 @@ class OnboardingScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-              ), child: Text('Let’s start',style:AppStyles.bold20White ,)),
+              ), child: Text('Let’s start',)),
             ),
           ],
         ),

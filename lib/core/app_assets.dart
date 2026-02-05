@@ -9,6 +9,8 @@ static const String eyeSlash='assets/images/eye-slash.png';
 static const String lock='assets/images/lock.png';
 static const String sms='assets/images/sms.png';
 static const String mainButton='assets/images/Main btn.png';
+static const String profilePic='assets/images/Profile pic.png';
+
 
 
 

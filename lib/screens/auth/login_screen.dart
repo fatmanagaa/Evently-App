@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {},
                     child: Text(
                       'Forget Password?',
-                      style: AppStyles.bold14Main,
+
                     ),
                   ),
                 ),
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: Text(
                     'Login',
-                    style: AppStyles.bold20White,
+                    style: AppStyles.semi20White,
                   ),
                 ),
                 const SizedBox(height: 24),

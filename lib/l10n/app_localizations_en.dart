@@ -25,4 +25,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get light => 'Light';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get logout => 'Logout';
 }

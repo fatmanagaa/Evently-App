@@ -170,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   child: Text(
                     'Sign up',
-                    style: AppStyles.bold20White,
+                    style: AppStyles.semi20White,
                   ),
                 ),
                 const SizedBox(height: 24),
