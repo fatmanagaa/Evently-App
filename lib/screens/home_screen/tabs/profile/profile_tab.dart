@@ -1,3 +1,5 @@
+import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/screens/home_screen/tabs/profile/theme/theme_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 import 'language/language_bottom_sheet.dart';
@@ -8,6 +10,7 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: 10 ,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -17,21 +20,31 @@ class ProfileTab extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('language'),
-              IconButton(onPressed: () {
-                showLanguageDialog(context);
-              },
-                  icon: Icon(Icons.arrow_forward_ios_rounded)),
+              Text(AppLocalizations.of(context)!.theme),
+              IconButton(
+                onPressed: () {
+                  showThemeDialog(context);
+                },
+                icon: Icon(Icons.arrow_forward_ios_rounded),
+              ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
+
   void showLanguageDialog(BuildContext context) {
-
-
-    showModalBottomSheet(context: context, builder: (context) => LanguageBottomSheet(),);
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => LanguageBottomSheet(),
+    );
+  }
+  void showThemeDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => ThemeBottomSheet(),
+    );
   }
 
 }

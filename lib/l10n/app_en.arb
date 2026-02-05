@@ -2,7 +2,9 @@
   "language": "Language",
   "arabic" : "Arabic",
   "english" : "English",
-  "theme" : "Theme"
+  "theme" : "Theme",
+  "dark" : "Dark",
+  "light" : "Light"
 
 
 
