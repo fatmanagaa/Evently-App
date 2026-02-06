@@ -24,14 +24,8 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<AppThemeProvider>(context);
     bool isDark = themeProvider.isDarkMode();
-    var width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -47,18 +41,12 @@ class _ProfileTabState extends State<ProfileTab> {
             Center(
               child: Text(
                 'John Safwat',
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headlineLarge,
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
             Text(
               'johnsafwat.route@gmail.com',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .headlineMedium,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             SettingsItem(
               text: AppLocalizations.of(context)!.darkMode,
@@ -67,9 +55,10 @@ class _ProfileTabState extends State<ProfileTab> {
                 inactiveThumbColor: AppColors.greyColor,
                 value: isDark,
                 onChanged: (newValue) {
-
                   isDark = newValue;
-                  themeProvider.changeTheme(isDark ? ThemeMode.dark : ThemeMode.light);
+                  themeProvider.changeTheme(
+                    isDark ? ThemeMode.dark : ThemeMode.light,
+                  );
                   setState(() {});
                 },
               ),
@@ -81,20 +70,20 @@ class _ProfileTabState extends State<ProfileTab> {
                   showLanguageDialog(context);
                 },
 
-                icon: Icon(Icons.arrow_forward_ios_outlined, size: 30,
-                    color: isDark ? AppColors.strokeDarkColor : AppColors.main,
-                    ),
+                icon: Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  size: 30,
+                  color: isDark ? AppColors.strokeDarkColor : AppColors.main,
+                ),
               ),
             ),
             SettingsItem(
               text: AppLocalizations.of(context)!.logout,
-              item: IconButton(onPressed: (){}, icon:Icon(
-                Icons.logout,
-                size: 30,
-                color: AppColors.red,
-              )),
+              item: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.logout, size: 30, color: AppColors.red),
+              ),
             ),
-
           ],
         ),
       ),

@@ -5,6 +5,21 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: AppColors.background,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: AppColors.background,
+      selectedItemColor: AppColors.main,
+      unselectedItemColor: AppColors.greyColor,
+      selectedLabelStyle: AppStyles.regular12Main,
+      unselectedLabelStyle: AppStyles.regular12Grey
+
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColors.bgDarkMode,
+      foregroundColor: AppColors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(30)
+      ),
+    ),
     textTheme: TextTheme(
       headlineLarge: AppStyles.semi20Black,
       headlineMedium: AppStyles.regular14Grey,
@@ -13,6 +28,21 @@ class AppTheme {
   );
   static final ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: AppColors.bgDarkMode,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: AppColors.bgDarkMode,
+        selectedItemColor: AppColors.main,
+        unselectedItemColor: AppColors.greyColor,
+        selectedLabelStyle: AppStyles.regular12mainDark,
+        unselectedLabelStyle: AppStyles.regular12Grey
+
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColors.main,
+      foregroundColor: AppColors.white,
+      shape: StadiumBorder(
+
+      )
+    ),
     textTheme: TextTheme(
       headlineLarge: AppStyles.semi20White,
       headlineMedium: AppStyles.regular14White,

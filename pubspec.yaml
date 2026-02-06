@@ -40,6 +40,8 @@ dependencies:
     sdk: flutter
   intl: any
   provider: ^6.1.5+1
+  introduction_screen: ^4.0.0
+  flutter_native_splash: ^2.4.7
 
 dev_dependencies:
   flutter_test:

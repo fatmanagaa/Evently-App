@@ -6,8 +6,8 @@
   "dark" : "Dark",
   "light" : "Light",
   "darkMode" : "Dark Mode",
-  "logout" : "Logout"
-
-
-
+  "logout" : "Logout",
+  "home" : "Home",
+  "favourite" : "Favourite",
+  "profile" : "Profile"
 }
