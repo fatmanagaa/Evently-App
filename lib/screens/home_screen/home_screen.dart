@@ -27,20 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
         items: [
           buildBottomNavigationBarItem(
-            selectedIcon: Icon(Icons.home_outlined),
-            label: AppLocalizations.of(context)!.light,
-            unSelctedIcon: Icon(Icons.home),
+            unSelctedIcon:  Icon(Icons.home_outlined),
+            label: AppLocalizations.of(context)!.home,
             index: 0,
+            selectedIcon: Icon(Icons.home)
           ),
           buildBottomNavigationBarItem(
             selectedIcon: Icon(Icons.favorite_outlined),
-            label: AppLocalizations.of(context)!.light,
+            label: AppLocalizations.of(context)!.favourite,
             unSelctedIcon: Icon(Icons.favorite),
             index: 1,
           ),
           buildBottomNavigationBarItem(
             selectedIcon: Icon(Icons.person_outlined),
-            label: AppLocalizations.of(context)!.light,
+            label: AppLocalizations.of(context)!.profile,
             unSelctedIcon: Icon(Icons.person),
             index: 2,
           ),

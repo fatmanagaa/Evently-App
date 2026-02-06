@@ -24,6 +24,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         globalBackgroundColor: Color(0xFFF4F7FF),
         showSkipButton: false,
         showNextButton: false,
+        showDoneButton: false,
+
         dotsDecorator: DotsDecorator(
           activeColor: AppColors.main,
           size: const Size.square(10.0),
@@ -37,6 +39,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ),
         pages: [
           PageViewModel(
+
             title: '',
             bodyWidget: Column(
               spacing: height * 0.02,
