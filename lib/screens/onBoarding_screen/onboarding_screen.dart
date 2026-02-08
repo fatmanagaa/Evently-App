@@ -1,68 +1,83 @@
 import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_colors.dart';
 import 'package:evently_app/core/app_style.dart';
+import 'package:evently_app/core/app_theme.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/screens/onBoarding_screen/on_boarding_pages/on_boarding_p3.dart';
 import 'package:flutter/material.dart';
 
-class OnboardingScreen extends StatelessWidget {
+import '../home_screen/home_screen.dart';
+import 'on_boarding_pages/on_boarding_p1.dart';
+import 'on_boarding_pages/on_boarding_p2.dart';
+import 'on_boarding_pages/on_boarding_p4.dart';
+
+class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final PageController controller = PageController();
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Image.asset(AppAssets.logo), centerTitle: true),
-
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(child: Image.asset(AppAssets.creative, width: double.infinity)),
-            SizedBox(height: 18),
-            Text('Personalize Your Experience', style: AppStyles.bold20Black),
-            SizedBox(height: 8),
-            Text(
-              'Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.',
-              style: AppStyles.bold16secText,
-            ),
-            SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Language', style: AppStyles.bold18mainColor),
-                  SizedBox(width: 50),
-                  Image.asset(AppAssets.english),
-                  Image.asset(AppAssets.arabic),
-                ],
-              ),
-            ),
-            SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Theme', style: AppStyles.bold18mainColor),
-                  SizedBox(width: 50),
-                  Image.asset(AppAssets.light),
-                  Image.asset(AppAssets.dark),
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
-            Center(
-              child: ElevatedButton(onPressed: () {}, style: ElevatedButton.styleFrom(
-                fixedSize: Size(343, 60),
-
-                padding: EdgeInsets.symmetric(vertical: 16,horizontal: 50),
-                backgroundColor: AppColors.main,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Center(
+                child: Image.asset(
+                  AppAssets.getLogo(context),
+                  width: 142,
+                  height: 27,
                 ),
-              ), child: Text('Let’s start',style:AppStyles.bold20White ,)),
-            ),
-          ],
+              ),
+              Expanded(
+                child: PageView(
+                  controller: controller,
+                  onPageChanged: (index) {
+                    currentIndex = index;
+                    setState(() {});
+                  },
+                  children: [
+                    OnBoardingP1(),
+                    OnBoardingP2(),
+                    OnBoardingP3(),
+                    OnBoardingP4(),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (currentIndex < 3) {
+                    controller.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  } else {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                  }
+                },
+                child: Center(
+                  child: Text(
+                    currentIndex == 0
+                        ? AppLocalizations.of(context)!.letsStart
+                        : AppLocalizations.of(context)!.next,
+                    style: AppStyles.semi20White,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

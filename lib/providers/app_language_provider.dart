@@ -18,4 +18,4 @@ class AppLanguageProvider extends ChangeNotifier {
     notifyListeners();
     //todo: notify all observers when the data change send to all observers notification
   }
-}
+  }
