@@ -4,6 +4,7 @@ import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../home_screen/tabs/profile/language/language_bottom_sheet.dart';
+import '../../home_screen/tabs/profile/theme/theme_bottom_sheet.dart';
 
 class OnBoardingP1 extends StatefulWidget {
 
@@ -48,9 +49,9 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
                 ),
                 const Spacer(),
 
-                languageItem(context, "English", "en"),
+                languageItem(context,AppLocalizations.of(context)!.english, "en"),
                 const SizedBox(width: 10),
-                languageItem(context, "Arabic", "ar"),
+                languageItem(context, AppLocalizations.of(context)!.arabic, "ar"),
               ],
             ),
             Row(
@@ -80,7 +81,10 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
 
     return GestureDetector(
       onTap: () {
+        showLanguageDialog(context);
+
         selectedLang = code;
+
 
 
         setState(() {});
@@ -111,6 +115,7 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
     return GestureDetector(
       onTap: () {
         setState(() {
+          showThemeDialog(context);
           isDark = dark;
         });
       },
@@ -132,6 +137,19 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
     );
   }
 
+  void showLanguageDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => LanguageBottomSheet(),
+    );
+  }
+
+  void showThemeDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => ThemeBottomSheet(),
+    );
+  }
 
 
 
