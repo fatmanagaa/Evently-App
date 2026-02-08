@@ -20,9 +20,14 @@ class AppStyles {
     color: AppColors.mainText,
   );
   static TextStyle medium16White = GoogleFonts.inter(
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
     fontSize: 16,
     color: AppColors.white,
+  );
+  static TextStyle medium16Grey = GoogleFonts.poppins(
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    color: AppColors.greyColor,
   );
 
   static TextStyle semi20White = GoogleFonts.poppins(
@@ -61,6 +66,23 @@ class AppStyles {
       fontSize: 12,
       color: AppColors.bgDarkMode,
   );
+  static TextStyle semiBold24main = GoogleFonts.poppins(
+    fontWeight: FontWeight.w600,
+    fontSize: 24,
+    color: AppColors.main,
+  );
+  static TextStyle medium18main = GoogleFonts.poppins(
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
+    color: AppColors.main,
+  );
+  static TextStyle regular18White = GoogleFonts.poppins(
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
+    color: AppColors.white,
+  );
+
+
 
 
 }

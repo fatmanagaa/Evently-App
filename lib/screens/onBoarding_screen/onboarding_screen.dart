@@ -1,8 +1,14 @@
 import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_colors.dart';
 import 'package:evently_app/core/app_style.dart';
+import 'package:evently_app/core/app_theme.dart';
+import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/screens/onBoarding_screen/on_boarding_pages/on_boarding_p3.dart';
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
+
+import '../home_screen/home_screen.dart';
+import 'on_boarding_pages/on_boarding_p1.dart';
+import 'on_boarding_pages/on_boarding_p2.dart';
+import 'on_boarding_pages/on_boarding_p4.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -12,80 +18,67 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final introKey = GlobalKey<IntroductionScreenState>();
+  final PageController controller = PageController();
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: IntroductionScreen(
-        key: introKey,
-        globalBackgroundColor: Color(0xFFF4F7FF),
-        showSkipButton: false,
-        showNextButton: false,
-        showDoneButton: false,
-
-        dotsDecorator: DotsDecorator(
-          activeColor: AppColors.main,
-          size: const Size.square(10.0),
-          activeSize:const Size(20.0, 10.0),
-          spacing: const EdgeInsets.symmetric(horizontal: 3.0),
-          activeShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25.0),
-          ),
-
-
-        ),
-        pages: [
-          PageViewModel(
-
-            title: '',
-            bodyWidget: Column(
-              spacing: height * 0.02,
-
-              children: [
-                Center(
-                  child: Image.asset(AppAssets.logo, width: 142, height: 27),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Center(
+                child: Image.asset(
+                  AppAssets.getLogo(context),
+                  width: 142,
+                  height: 27,
                 ),
-                Center(
-                  child: Image.asset(
-                    AppAssets.onBoarding_1,
-                    width: 343,
-                    height: 343,
+              ),
+              Expanded(
+                child: PageView(
+                  controller: controller,
+                  onPageChanged: (index) {
+                    currentIndex = index;
+                    setState(() {});
+                  },
+                  children: [
+                    OnBoardingP1(),
+                    OnBoardingP2(),
+                    OnBoardingP3(),
+                    OnBoardingP4(),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (currentIndex < 3) {
+                    controller.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  } else {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                  }
+                },
+                child: Center(
+                  child: Text(
+                    currentIndex == 0
+                        ? AppLocalizations.of(context)!.letsStart
+                        : AppLocalizations.of(context)!.next,
+                    style: AppStyles.semi20White,
                   ),
                 ),
-                Text(
-                  'Personalize Your Experience',
-                  style: AppStyles.semi20Black,
-                ),
-                Text(
-                  'Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.',
-                style: AppStyles.regular14Grey,),
-                Row(
-                  children: [
-                    Text('Language',style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
-                      color: AppColors.main
-                    ),),
-
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text('Theme')
-                  ],
-                ),
-                ElevatedButton(onPressed: (){}, child:Container(
-                  color: AppColors.main,
-
-                ) )
-              ],
-
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

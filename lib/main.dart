@@ -2,8 +2,9 @@ import 'package:evently_app/core/app_routes.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
 import 'package:evently_app/screens/home_screen/home_screen.dart';
-import 'package:evently_app/screens/auth/login_screen.dart';
+import 'package:evently_app/screens/auth/login/login_screen.dart';
 import 'package:evently_app/screens/onBoarding_screen/onboarding_screen.dart';
+import 'package:evently_app/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/app_theme.dart';
@@ -27,11 +28,12 @@ class MyApp extends StatelessWidget {
     var appThemeProvider = Provider.of<AppThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.onboardingScreen,
+      initialRoute: AppRoutes.splashScreen,
       routes: {
         AppRoutes.onboardingScreen: (context) => OnboardingScreen(),
         AppRoutes.homeScreen: (context) => HomeScreen(),
         AppRoutes.loginScreen: (context) => LoginScreen(),
+        AppRoutes.splashScreen: (context) => SplashScreen(),
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
