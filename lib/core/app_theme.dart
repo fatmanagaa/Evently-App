@@ -11,7 +11,7 @@ class AppTheme {
         fixedSize: MaterialStateProperty.all(const Size(340, 55)),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16), // Radius 16
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
         padding: MaterialStateProperty.all(const EdgeInsets.all(16)),
