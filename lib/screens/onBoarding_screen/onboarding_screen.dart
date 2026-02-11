@@ -4,7 +4,10 @@ import 'package:evently_app/core/app_theme.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:evently_app/screens/onBoarding_screen/on_boarding_pages/on_boarding_p3.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../core/app_routes.dart';
+import '../../providers/app_language_provider.dart';
 import '../home_screen/home_screen.dart';
 import 'on_boarding_pages/on_boarding_p1.dart';
 import 'on_boarding_pages/on_boarding_p2.dart';
@@ -20,6 +23,7 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController controller = PageController();
   int currentIndex = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +63,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       curve: Curves.easeInOut,
                     );
                   } else {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ),
-                    );
+                    Navigator.pushReplacementNamed(context, AppRoutes.loginScreen);
+
+
                   }
                 },
                 child: Center(

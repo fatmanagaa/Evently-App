@@ -75,14 +75,46 @@ class AppStyles {
     fontWeight: FontWeight.w500,
     fontSize: 18,
     color: AppColors.main,
+  ); static TextStyle medium18mainDark = GoogleFonts.poppins(
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
+    color: AppColors.mainDarkMode,
   );
   static TextStyle regular18White = GoogleFonts.poppins(
     fontWeight: FontWeight.w500,
     fontSize: 18,
     color: AppColors.white,
   );
-
-
+  static TextStyle semiBold24White = GoogleFonts.poppins(
+    fontWeight: FontWeight.w600,
+    fontSize: 24,
+    color: AppColors.white,
+  );
+  static TextStyle regular14Main = GoogleFonts.poppins(
+      fontWeight: FontWeight.w600,
+      fontSize: 14,
+      color: AppColors.main,
+  );
+  static TextStyle regular14MainDark = GoogleFonts.poppins(
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+    color: AppColors.mainDarkMode,
+  );
+  static TextStyle medium16Main = GoogleFonts.poppins(
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    color: AppColors.main,
+  );
+  static TextStyle medium16MainDark = GoogleFonts.inter(
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    color: AppColors.mainDarkMode,
+  );
+  static TextStyle regular18Black = GoogleFonts.poppins(
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
+    color: AppColors.mainText,
+  );
 
 
 }

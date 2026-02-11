@@ -1,6 +1,8 @@
 import 'package:evently_app/core/app_routes.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
+import 'package:evently_app/screens/auth/forget_pass/forget_pass_screen.dart';
+import 'package:evently_app/screens/auth/resgister/register_screen.dart';
 import 'package:evently_app/screens/home_screen/home_screen.dart';
 import 'package:evently_app/screens/auth/login/login_screen.dart';
 import 'package:evently_app/screens/onBoarding_screen/onboarding_screen.dart';
@@ -28,12 +30,15 @@ class MyApp extends StatelessWidget {
     var appThemeProvider = Provider.of<AppThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.splashScreen,
+      initialRoute: AppRoutes.registerScreen,
       routes: {
         AppRoutes.onboardingScreen: (context) => OnboardingScreen(),
         AppRoutes.homeScreen: (context) => HomeScreen(),
         AppRoutes.loginScreen: (context) => LoginScreen(),
         AppRoutes.splashScreen: (context) => SplashScreen(),
+        AppRoutes.registerScreen: (context) => RegisterScreen(),
+        AppRoutes.forgetPassScreen: (context) => ForgetPassScreen(),
+
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
