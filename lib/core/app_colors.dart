@@ -18,6 +18,8 @@ class AppColors {
   static const Color transparent = Colors.transparent;
   static const Color mainDarkMode = Color(0xFF457AED);
   static const Color mainDarkColor_2 = Color(0xFF001440);
+  static const Color lightGrey = Color(0xFFB9B9B9);
+
 
 
 

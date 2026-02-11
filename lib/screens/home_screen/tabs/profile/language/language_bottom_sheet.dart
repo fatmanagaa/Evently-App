@@ -10,49 +10,57 @@ class LanguageBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
-var height = MediaQuery.of(context).size.height;
+    var height = MediaQuery.of(context).size.height;
     var appLanguageProvider = Provider.of<AppLanguageProvider>(context);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: width*0.04,vertical: height*0.04),
+      padding: EdgeInsets.symmetric(
+        horizontal: width * 0.04,
+        vertical: height * 0.04,
+      ),
       child: Column(
-        spacing: height*0.02,
+        spacing: height * 0.02,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           InkWell(
-            onTap: (){
+            onTap: () {
               //todo:change language to english
               appLanguageProvider.changeLanguage('en');
             },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(AppLocalizations.of(context)!.english),
-                Icon(Icons.check)
-              ],
-            ),
+            child: appLanguageProvider.appLanguage == 'en'
+                ? getSelectedItemWidget(
+                    language: AppLocalizations.of(context)!.english,
+                  )
+                : getUnSelectedItemWidget(
+                    language: AppLocalizations.of(context)!.english,
+                  ),
           ),
 
           InkWell(
-              onTap: (){
-                //todo:change language to arabic
-                appLanguageProvider.changeLanguage('ar');
-              },
-              child: Text(AppLocalizations.of(context)!.arabic)),
-
+            onTap: () {
+              //todo:change language to arabic
+              appLanguageProvider.changeLanguage('ar');
+            },
+            child: appLanguageProvider.appLanguage == 'ar'
+                ? getSelectedItemWidget(
+                    language: AppLocalizations.of(context)!.arabic,
+                  )
+                : getUnSelectedItemWidget(
+                    language: AppLocalizations.of(context)!.arabic,
+                  ),
+          ),
         ],
       ),
     );
   }
-  Widget getSelectedItemWidget({required String language}){
+
+  Widget getSelectedItemWidget({required String language}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(language),
-        Icon(Icons.check)
-      ],
+      children: [Text(language), Icon(Icons.check)],
     );
   }
-  Widget getUnSelectedItemWidget({required String language}){
-    return Text(language );
+
+  Widget getUnSelectedItemWidget({required String language}) {
+    return Text(language);
   }
 }
