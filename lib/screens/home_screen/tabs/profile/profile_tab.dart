@@ -67,7 +67,7 @@ class _ProfileTabState extends State<ProfileTab> {
               text: AppLocalizations.of(context)!.language,
               item: IconButton(
                 onPressed: () {
-                  showLanguageDialog(context);
+                  showLanguageModalBottomSheet(context);
                 },
 
                 icon: Icon(
@@ -90,14 +90,14 @@ class _ProfileTabState extends State<ProfileTab> {
     );
   }
 
-  void showLanguageDialog(BuildContext context) {
+  void showLanguageModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) => LanguageBottomSheet(),
     );
   }
 
-  void showThemeDialog(BuildContext context) {
+  void showThemeModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) => ThemeBottomSheet(),

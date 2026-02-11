@@ -35,7 +35,9 @@
   "alreadyHaveAccount": "Already have an account? Login",
   "resetPassword": "Reset password",
   "loginWithGoogle": "Login with Google",
-  "signUpWithGoogle": "Sign up with Google",
+  "signUpWithGoogle": "Sign up with Google"
+
+
 
 
 }
