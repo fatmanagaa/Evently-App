@@ -74,4 +74,52 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get sharingDescription =>
       'اجعل كل فعالية لا تُنسى بمشاركة التجربة مع الآخرين. منصتنا تتيح لك دعوة الأصدقاء، إبقاء الجميع على اطلاع، والاحتفال باللحظات معًا. التقط وشارك الإثارة مع شبكتك لتتمكن من إعادة عيش أبرز اللحظات والاحتفاظ بالذكريات.';
+
+  @override
+  String get loginToAccount => 'تسجيل الدخول إلى حسابك';
+
+  @override
+  String get enterEmail => 'أدخل بريدك الإلكتروني';
+
+  @override
+  String get enterPassword => 'أدخل كلمة المرور';
+
+  @override
+  String get forgetPassword => 'هل نسيت كلمة المرور؟';
+
+  @override
+  String get login => 'تسجيل الدخول';
+
+  @override
+  String get dontHaveAccount => 'ليس لديك حساب؟';
+
+  @override
+  String get signup => 'إنشاء حساب';
+
+  @override
+  String get or => 'أو';
+
+  @override
+  String get createAccount => 'إنشاء حساب جديد';
+
+  @override
+  String get enterName => 'أدخل اسمك';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get signUp => 'إنشاء حساب';
+
+  @override
+  String get alreadyHaveAccount => 'لديك حساب بالفعل؟ تسجيل الدخول';
+
+  @override
+  String get resetPassword => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get loginWithGoogle => 'تسجيل الدخول بجوجل';
+
+  @override
+  String get signUpWithGoogle => 'إنشاء حساب باستخدام جوجل';
 }

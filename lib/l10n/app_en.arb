@@ -19,5 +19,23 @@
   "effortlessPlanning": "Effortless Event Planning",
   "planningDescription": "Take the hassle out of organizing events with our all-in-one planning tools. From setting up invites and managing RSVPs to scheduling reminders and coordinating details, we’ve got you covered. Plan with ease and focus on what matters – creating an unforgettable experience for you and your guests.",
   "connectWithFriends": "Connect with Friends & Share Moments",
-  "sharingDescription": "Make every event memorable by sharing the experience with others. Our platform lets you invite friends, keep everyone in the loop, and celebrate moments together. Capture and share the excitement with your network, so you can relive the highlights and cherish the memories."
+  "sharingDescription": "Make every event memorable by sharing the experience with others. Our platform lets you invite friends, keep everyone in the loop, and celebrate moments together. Capture and share the excitement with your network, so you can relive the highlights and cherish the memories.",
+  "loginToAccount": "Login to your account",
+  "enterEmail": "Enter your email",
+  "enterPassword": "Enter your password",
+  "forgetPassword": "Forget Password?",
+  "login": "Login",
+  "dontHaveAccount": "Don’t have an account?",
+  "signup": "Signup",
+  "or": "Or",
+  "createAccount": "Create your account",
+  "enterName": "Enter your name",
+  "confirmPassword": "Confirm your password",
+  "signUp": "Sign up",
+  "alreadyHaveAccount": "Already have an account? Login",
+  "resetPassword": "Reset password",
+  "loginWithGoogle": "Login with Google",
+  "signUpWithGoogle": "Sign up with Google",
+
+
 }

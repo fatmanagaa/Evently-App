@@ -2,7 +2,10 @@ import 'package:evently_app/core/app_assets.dart';
 import 'package:evently_app/core/app_colors.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../providers/app_language_provider.dart';
+import '../../../providers/app_theme_provider.dart';
 import '../../home_screen/tabs/profile/language/language_bottom_sheet.dart';
 import '../../home_screen/tabs/profile/theme/theme_bottom_sheet.dart';
 
@@ -20,8 +23,11 @@ class OnBoardingP1 extends StatefulWidget {
 class _OnBoardingP1State extends State<OnBoardingP1> {
   bool isDark = false;
   String selectedLang = "en";
+  late var appLanguageProvider = Provider.of<AppLanguageProvider>(context);
+  late var appThemeProvider = Provider.of<AppThemeProvider>(context);
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -81,6 +87,7 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
 
     return GestureDetector(
       onTap: () {
+        //appLanguageProvider.changeLanguage('en');
         showLanguageDialog(context);
 
         selectedLang = code;
@@ -115,6 +122,7 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
     return GestureDetector(
       onTap: () {
         setState(() {
+
           showThemeDialog(context);
           isDark = dark;
         });
