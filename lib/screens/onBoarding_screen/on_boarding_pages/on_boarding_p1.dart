@@ -88,7 +88,7 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
     return GestureDetector(
       onTap: () {
         //appLanguageProvider.changeLanguage('en');
-        showLanguageDialog(context);
+        showLanguageModalBottomSheet(context);
 
         selectedLang = code;
 
@@ -123,7 +123,7 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
       onTap: () {
         setState(() {
 
-          showThemeDialog(context);
+          showThemeModalBottomSheet(context);
           isDark = dark;
         });
       },
@@ -144,21 +144,21 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
       ),
     );
   }
-
-  void showLanguageDialog(BuildContext context) {
+  void showLanguageModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) => LanguageBottomSheet(),
     );
   }
 
-  void showThemeDialog(BuildContext context) {
+  void showThemeModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) => ThemeBottomSheet(),
     );
   }
-
-
-
 }
+
+
+
+

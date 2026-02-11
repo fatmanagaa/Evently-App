@@ -7,13 +7,19 @@ import 'package:evently_app/screens/home_screen/home_screen.dart';
 import 'package:evently_app/screens/auth/login/login_screen.dart';
 import 'package:evently_app/screens/onBoarding_screen/onboarding_screen.dart';
 import 'package:evently_app/screens/splash_screen/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/app_theme.dart';
+import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => AppLanguageProvider()),
     ChangeNotifierProvider(create: (context) => AppThemeProvider()),
@@ -30,7 +36,7 @@ class MyApp extends StatelessWidget {
     var appThemeProvider = Provider.of<AppThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.registerScreen,
+      initialRoute: AppRoutes.splashScreen,
       routes: {
         AppRoutes.onboardingScreen: (context) => OnboardingScreen(),
         AppRoutes.homeScreen: (context) => HomeScreen(),
