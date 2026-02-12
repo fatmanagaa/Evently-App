@@ -14,17 +14,18 @@ import 'core/app_theme.dart';
 import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AppLanguageProvider()),
+        ChangeNotifierProvider(create: (context) => AppThemeProvider()),
+      ],
+      child: const MyApp(),
+    ),
   );
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => AppLanguageProvider()),
-    ChangeNotifierProvider(create: (context) => AppThemeProvider()),
-  ],
-  child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -44,7 +45,6 @@ class MyApp extends StatelessWidget {
         AppRoutes.splashScreen: (context) => SplashScreen(),
         AppRoutes.registerScreen: (context) => RegisterScreen(),
         AppRoutes.forgetPassScreen: (context) => ForgetPassScreen(),
-
       },
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -56,4 +56,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
