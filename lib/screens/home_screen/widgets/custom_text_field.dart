@@ -15,8 +15,6 @@ class CustomTextField extends StatelessWidget {
   String? errorText;
   TextStyle? errorStyle;
 
-
-
   CustomTextField({
     super.key,
     this.filled,
@@ -36,12 +34,25 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        enabledBorder: buildDecorationBorder(radius: 16.0, color: borderColor, side: 2.0),
-        focusedBorder: buildDecorationBorder(radius: 16.0, color: borderColor, side: 2.0),
-        errorBorder: buildDecorationBorder(radius: 16.0, color: AppColors.red, side: 2.0),
+        enabledBorder: buildDecorationBorder(
+          radius: 16.0,
+          color: borderColor,
+          side: 2.0,
+        ),
+        focusedBorder: buildDecorationBorder(
+          radius: 16.0,
+          color: borderColor,
+          side: 2.0,
+        ),
+        errorBorder: buildDecorationBorder(
+          radius: 16.0,
+          color: AppColors.red,
+          side: 2.0,
+        ),
         focusedErrorBorder: buildDecorationBorder(
           radius: 16.0,
-          color: AppColors.red, side: 2.0,
+          color: AppColors.red,
+          side: 2.0,
         ),
         filled: filled,
         fillColor: fillColor,
@@ -53,12 +64,15 @@ class CustomTextField extends StatelessWidget {
         labelStyle: labelStyle,
         errorText: errorText,
         errorStyle: errorStyle,
-
       ),
     );
   }
 
-  OutlineInputBorder buildDecorationBorder({required radius, required color,required side}) {
+  OutlineInputBorder buildDecorationBorder({
+    required radius,
+    required color,
+    required side,
+  }) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(radius),
       borderSide: BorderSide(color: color, width: side),

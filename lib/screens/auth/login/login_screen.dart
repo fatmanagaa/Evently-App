@@ -9,9 +9,11 @@ import '../../../core/app_routes.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/app_language_provider.dart';
 import '../../../providers/app_theme_provider.dart';
+import '../google_auth/google_auth.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -161,9 +163,14 @@ class LoginScreen extends StatelessWidget {
                 width: 343,
                 height: 43,
                 child: MaterialButton(
-                  onPressed: () {
+                  onPressed: () async {
                     //todo:navigate to google login
-                  },
+                    final user = await signInWithGoogle();
+
+                    if (user != null) {
+                      print("Email: ${user.user!.email}");
+
+                    }},
                   color: appThemeProvider.isDarkMode()
                       ? AppColors.bgDarkMode
                       : AppColors.white,
