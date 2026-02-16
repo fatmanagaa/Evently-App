@@ -51,6 +51,7 @@ class AppTheme {
 
     ),
 
+
   );
   static final ThemeData darkTheme = ThemeData(
     appBarTheme: AppBarTheme(

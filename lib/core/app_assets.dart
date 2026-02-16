@@ -18,6 +18,8 @@ static const String sms='assets/images/sms.png';
 static const String mainButton='assets/images/Main btn.png';
 static const String profilePic='assets/images/Profile pic.png';
 static const String googleLogo='assets/images/image 6.png';
+static const String birthday='assets/images/birth_day_image.png';
+
 
   static String getOnBoardingImage_1(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
