@@ -122,4 +122,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signUpWithGoogle => 'Sign up with Google';
+
+  @override
+  String get welcome_back => 'Welcome Back ✨';
+
+  @override
+  String get user_name => 'John Safwat';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get sport => 'Sport';
+
+  @override
+  String get birthday => 'Birthday';
+
+  @override
+  String get search_event => 'Search for event';
+
+  @override
+  String get favorite => 'Favorite';
+
+  @override
+  String get sports => 'Sports';
+
+  @override
+  String get meeting => 'Meeting';
+
+  @override
+  String get gaming => 'Gaming';
+
+  @override
+  String get workshop => 'Workshop';
+
+  @override
+  String get book_club => 'Book Club';
+
+  @override
+  String get exhibition => 'Exhibition';
+
+  @override
+  String get holiday => 'Holiday';
+
+  @override
+  String get eating => 'Eating';
+
+  @override
+  String get add_event => 'Add Event';
+
+  @override
+  String get event_title => 'Event Title';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get event_description_hint => 'Event Description....';
+
+  @override
+  String get event_date => 'Event Date';
+
+  @override
+  String get event_time => 'Event Time';
+
+  @override
+  String get choose_date => 'Choose date';
 }

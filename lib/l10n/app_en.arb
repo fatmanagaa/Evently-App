@@ -35,8 +35,36 @@
   "alreadyHaveAccount": "Already have an account? Login",
   "resetPassword": "Reset password",
   "loginWithGoogle": "Login with Google",
-  "signUpWithGoogle": "Sign up with Google"
+  "signUpWithGoogle": "Sign up with Google",
+  "welcome_back": "Welcome Back ✨",
+  "user_name": "John Safwat",
+  "all": "All",
+  "sport": "Sport",
+  "birthday": "Birthday",
+  "search_event": "Search for event",
+  "home": "Home",
+  "favorite": "Favorite",
+  "profile": "Profile",
+  "all": "All",
+  "sports": "Sports",
+  "birthday": "Birthday",
+  "meeting": "Meeting",
+  "gaming": "Gaming",
+  "workshop": "Workshop",
+  "book_club": "Book Club",
+  "exhibition": "Exhibition",
+  "holiday": "Holiday",
+  "eating": "Eating",
 
+
+  "add_event": "Add Event",
+  "event_title": "Event Title",
+  "title": "Title",
+  "description": "Description",
+  "event_description_hint": "Event Description....",
+  "event_date": "Event Date",
+  "event_time": "Event Time",
+  "choose_date": "Choose date"
 
 
 

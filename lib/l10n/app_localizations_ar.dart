@@ -33,7 +33,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get logout => 'تسجيل خروج';
 
   @override
-  String get home => 'الرءيسيه';
+  String get home => 'الرئيسية';
 
   @override
   String get favourite => 'المفضله';
@@ -122,4 +122,73 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signUpWithGoogle => 'إنشاء حساب باستخدام جوجل';
+
+  @override
+  String get welcome_back => 'مرحباً بعودتك ✨';
+
+  @override
+  String get user_name => 'جون صفوت';
+
+  @override
+  String get all => 'الكل';
+
+  @override
+  String get sport => 'رياضة';
+
+  @override
+  String get birthday => 'عيد ميلاد';
+
+  @override
+  String get search_event => 'ابحث عن فعالية';
+
+  @override
+  String get favorite => 'المفضلة';
+
+  @override
+  String get sports => 'رياضة';
+
+  @override
+  String get meeting => 'اجتماع';
+
+  @override
+  String get gaming => 'ألعاب';
+
+  @override
+  String get workshop => 'ورشة عمل';
+
+  @override
+  String get book_club => 'نادي الكتاب';
+
+  @override
+  String get exhibition => 'معرض';
+
+  @override
+  String get holiday => 'إجازة';
+
+  @override
+  String get eating => 'أكل';
+
+  @override
+  String get add_event => 'إضافة حدث';
+
+  @override
+  String get event_title => 'عنوان الحدث';
+
+  @override
+  String get title => 'العنوان';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get event_description_hint => 'وصف الحدث....';
+
+  @override
+  String get event_date => 'تاريخ الحدث';
+
+  @override
+  String get event_time => 'وقت الحدث';
+
+  @override
+  String get choose_date => 'اختاري التاريخ';
 }

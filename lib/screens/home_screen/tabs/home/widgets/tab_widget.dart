@@ -1,0 +1,43 @@
+import 'package:evently_app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
+
+class TabWidget extends StatelessWidget {
+  bool isSelected;
+  Color selectedColor;
+  Color unSelectedColor;
+
+  String eventsName;
+  TextStyle selectedTextStyle;
+  TextStyle unSelectedTextStyle;
+
+  TabWidget({
+    super.key,
+    required this.isSelected,
+    required this.selectedColor,
+    required this.unSelectedColor,
+    required this.eventsName,
+    required this.selectedTextStyle,
+    required this.unSelectedTextStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var width = context.width;
+    var height = context.height;
+
+    return Container(
+      width: 24,
+      height: 24,
+      margin: EdgeInsets.symmetric(horizontal: width*0.02),
+      padding: EdgeInsets.symmetric(horizontal: width*0.02,vertical: height*0.005),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+      color: isSelected?selectedColor:unSelectedColor,
+      child: Center(
+        child: Text(
+          eventsName,
+          style: isSelected?selectedTextStyle:unSelectedTextStyle,
+        ),
+      ),
+    );
+  }
+}

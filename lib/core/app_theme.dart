@@ -33,7 +33,7 @@ class AppTheme {
 
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: AppColors.bgDarkMode,
+      backgroundColor: AppColors.main,
       foregroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.circular(30)
@@ -80,7 +80,7 @@ class AppTheme {
 
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: AppColors.main,
+      backgroundColor: AppColors.mainDarkMode,
       foregroundColor: AppColors.white,
       shape: StadiumBorder(
 
