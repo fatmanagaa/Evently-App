@@ -15,7 +15,7 @@ extension ContextExtensions on BuildContext {
   AppLanguageProvider get language =>
       Provider.of<AppLanguageProvider>(this, listen: false);
 
-  //todo:way to use this
+  //todo:way to use this extension
   // final width = context.width;
   // final height = context.height;
   // final theme = context.theme;
