@@ -9,6 +9,7 @@ extension ContextExtensions on BuildContext {
 
   double get height => MediaQuery.of(this).size.height;
 
+
   AppThemeProvider get theme =>
       Provider.of<AppThemeProvider>(this, listen: false);
 

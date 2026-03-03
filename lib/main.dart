@@ -3,12 +3,14 @@ import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
 import 'package:evently_app/screens/auth/forget_pass/forget_pass_screen.dart';
 import 'package:evently_app/screens/auth/resgister/register_screen.dart';
+import 'package:evently_app/screens/home_screen/add_event/add_event.dart';
 import 'package:evently_app/screens/home_screen/home_screen.dart';
 import 'package:evently_app/screens/auth/login/login_screen.dart';
 import 'package:evently_app/screens/onBoarding_screen/onboarding_screen.dart';
 import 'package:evently_app/screens/splash_screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'core/app_theme.dart';
 import 'firebase_options.dart';
@@ -35,24 +37,30 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var appLanguageProvider = Provider.of<AppLanguageProvider>(context);
     var appThemeProvider = Provider.of<AppThemeProvider>(context);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.homeScreen,
-      routes: {
-        AppRoutes.onboardingScreen: (context) => OnboardingScreen(),
-        AppRoutes.homeScreen: (context) => HomeScreen(),
-        AppRoutes.loginScreen: (context) => LoginScreen(),
-        AppRoutes.splashScreen: (context) => SplashScreen(),
-        AppRoutes.registerScreen: (context) => RegisterScreen(),
-        AppRoutes.forgetPassScreen: (context) => ForgetPassScreen(),
-      },
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale(appLanguageProvider.appLanguage),
-
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: appThemeProvider.appTheme,
+    return ScreenUtilInit(
+      designSize: const Size(414 , 896),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: AppRoutes.addEventScreen,
+        routes: {
+          AppRoutes.onboardingScreen: (context) => OnboardingScreen(),
+          AppRoutes.homeScreen: (context) => HomeScreen(),
+          AppRoutes.loginScreen: (context) => LoginScreen(),
+          AppRoutes.splashScreen: (context) => SplashScreen(),
+          AppRoutes.registerScreen: (context) => RegisterScreen(),
+          AppRoutes.forgetPassScreen: (context) => ForgetPassScreen(),
+          AppRoutes.addEventScreen: (context) => AddEvent(),
+        },
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: Locale(appLanguageProvider.appLanguage),
+      
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: appThemeProvider.appTheme,
+      ),
     );
   }
 }

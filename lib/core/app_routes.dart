@@ -5,6 +5,8 @@ class AppRoutes {
   static const String splashScreen = 'splashScreen';
   static const String registerScreen = 'registerScreen';
   static const String forgetPassScreen = 'forgetPassScreen';
+  static const String addEventScreen = 'addEventScreen';
+
 
 
 

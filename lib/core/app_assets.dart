@@ -18,6 +18,8 @@ static const String sms='assets/images/sms.png';
 static const String mainButton='assets/images/Main btn.png';
 static const String profilePic='assets/images/Profile pic.png';
 static const String googleLogo='assets/images/image 6.png';
+static const String birthday='assets/images/birth_day_image.png';
+
 
   static String getOnBoardingImage_1(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
@@ -61,6 +63,34 @@ static const String googleLogo='assets/images/image 6.png';
         : 'assets/images/change-setting.png';
 
   }
+  static String getBookClubImage(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? 'assets/images/Book Clubdark.png'
+        : 'assets/images/Book Club.png';
+
+  }static String getExhibitionImage(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? 'assets/images/Exhibitiondark.png'
+        : 'assets/images/Exhibition.png';
+
+  }static String getMeetingImage(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? 'assets/images/Meetingdark.png'
+        : 'assets/images/Meeting.png';
+
+  }static String getSportImage(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? 'assets/images/Sport (2)dark.png'
+        : 'assets/images/Sport.png';
+
+  }static String getBirtDayImage(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? 'assets/images/Birthdaydark.png'
+        : 'assets/images/birth_day_image.png';
+
+  }
+
+
 
 
 
