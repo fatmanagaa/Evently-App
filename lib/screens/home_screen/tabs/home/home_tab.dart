@@ -2,13 +2,9 @@ import 'package:evently_app/core/app_colors.dart';
 import 'package:evently_app/core/app_style.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
-import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/screens/home_screen/tabs/home/widgets/event_item.dart';
 import 'package:evently_app/screens/home_screen/tabs/home/widgets/tab_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../../../providers/app_theme_provider.dart';
 
 class HomeTab extends StatefulWidget {
   HomeTab({super.key});
@@ -25,8 +21,6 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     final width = context.width;
     final height = context.height;
-    final themeProvider = context.theme;
-    final languageProvider = context.language;
 
     eventsNameList = [
       AppLocalizations.of(context)!.all,
@@ -42,92 +36,55 @@ class _HomeTabState extends State<HomeTab> {
     ];
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: height * 0.12,
         centerTitle: false,
+        backgroundColor: context.isDark ? AppColors.mainDarkMode : AppColors.main,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(24),
+            bottomRight: Radius.circular(24),
+          ),
+        ),
         title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               AppLocalizations.of(context)!.welcome_back,
-              style: AppStyles.regular14Grey,
+              style: AppStyles.regular14White,
             ),
-            SizedBox(height: 3),
             Text(
               AppLocalizations.of(context)!.user_name,
-              style: AppStyles.semi20Black,
+              style: AppStyles.semiBold24White,
             ),
           ],
         ),
-        actions: [
-          Icon(
-            themeProvider.isDarkMode()
-                ? Icons.dark_mode
-                : Icons.light_mode_outlined,
-            color: themeProvider.isDarkMode()
-                ? AppColors.mainDarkMode
-                : AppColors.main,
-          ),
-          Container(
-            width: 34,
-            height: 32,
-            margin: EdgeInsets.symmetric(
-              horizontal: width * 0.02,
-              vertical: height * 0.005,
-            ),
-            padding: EdgeInsets.symmetric(
-              horizontal: width * 0.02,
-              vertical: height * 0.005,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: context.isDark ? AppColors.mainDarkMode : AppColors.main,
-            ),
-            child: Center(
-              child: Text(
-                context.language.appLanguage.toUpperCase(),
-                style: AppStyles.regular14White,
-              ),
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
-          Container(
-            height: height * 0.015,
-
-            decoration: BoxDecoration(
-              color: AppColors.mainText,
-              borderRadius: BorderRadius.circular(10),
-            ),
+          SizedBox(height: 16),
+          SizedBox(
+            height: 50,
             child: DefaultTabController(
               length: eventsNameList.length,
               child: TabBar(
+                isScrollable: true,
                 tabAlignment: TabAlignment.start,
-                labelPadding: EdgeInsets.symmetric(horizontal: width * 0.02),
                 indicatorColor: Colors.transparent,
-                dividerColor: AppColors.transparent,
-                labelColor: Colors.transparent,
-                unselectedLabelColor: Colors.transparent,
+                dividerColor: Colors.transparent,
                 onTap: (index) {
                   selectedIndex = index;
                   setState(() {});
                 },
-
-                isScrollable: true,
-                indicator: BoxDecoration(color: Colors.transparent),
-
-                tabs: eventsNameList.map((eventName) {
+                tabs: eventsNameList.asMap().entries.map((entry) {
+                  int idx = entry.key;
+                  String eventName = entry.value;
                   return TabWidget(
-                    isSelected:
-                        selectedIndex == eventsNameList.indexOf(eventName),
-                    selectedColor: context.isDark
-                        ? AppColors.mainDarkMode
-                        : AppColors.main,
-                    unSelectedColor: AppColors.transparent,
+                    isSelected: selectedIndex == idx,
+                    selectedColor: context.isDark ? AppColors.mainDarkMode : AppColors.main,
+                    unSelectedColor: Colors.transparent,
                     eventsName: eventName,
                     selectedTextStyle: AppStyles.medium16White,
-                    unSelectedTextStyle: context.isDark
-                        ? AppStyles.medium16White
-                        : AppStyles.medium16Black,
+                    unSelectedTextStyle: context.isDark ? AppStyles.medium16White : AppStyles.medium16Main,
                   );
                 }).toList(),
               ),
@@ -135,11 +92,12 @@ class _HomeTabState extends State<HomeTab> {
           ),
           Expanded(
             child: ListView.separated(
+              padding: EdgeInsets.all(16),
               itemBuilder: (context, index) {
                 return EventItem();
               },
               separatorBuilder: (context, index) {
-                return SizedBox(height: 10);
+                return SizedBox(height: 16);
               },
               itemCount: 20,
             ),

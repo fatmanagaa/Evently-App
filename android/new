@@ -1,5 +1,4 @@
-import 'package:evently_app/core/extensions/context_extensions.dart';
-import 'package:flutter/material.dart';
+
 
 class TabWidget extends StatelessWidget {
   bool isSelected;
@@ -43,3 +42,5 @@ class TabWidget extends StatelessWidget {
     );
   }
 }
+"""
+)
