@@ -3,6 +3,7 @@ import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
 import 'package:evently_app/screens/auth/forget_pass/forget_pass_screen.dart';
 import 'package:evently_app/screens/auth/resgister/register_screen.dart';
+import 'package:evently_app/screens/home_screen/add_event/add_event.dart';
 import 'package:evently_app/screens/home_screen/home_screen.dart';
 import 'package:evently_app/screens/auth/login/login_screen.dart';
 import 'package:evently_app/screens/onBoarding_screen/onboarding_screen.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.homeScreen,
+        initialRoute: AppRoutes.addEventScreen,
         routes: {
           AppRoutes.onboardingScreen: (context) => OnboardingScreen(),
           AppRoutes.homeScreen: (context) => HomeScreen(),
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.splashScreen: (context) => SplashScreen(),
           AppRoutes.registerScreen: (context) => RegisterScreen(),
           AppRoutes.forgetPassScreen: (context) => ForgetPassScreen(),
+          AppRoutes.addEventScreen: (context) => AddEvent(),
         },
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,

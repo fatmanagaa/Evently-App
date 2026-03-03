@@ -4,6 +4,8 @@ import 'package:evently_app/screens/home_screen/tabs/home/home_tab.dart';
 import 'package:evently_app/screens/home_screen/tabs/profile/profile_tab.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/app_routes.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -50,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: tabsList[selectedIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //todo:navigate to add event screen
+          Navigator.pushNamed(context, AppRoutes.addEventScreen);
         },
         child: Icon(Icons.add, size: 30),
       ),
