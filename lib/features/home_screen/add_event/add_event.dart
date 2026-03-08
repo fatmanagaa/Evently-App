@@ -1,12 +1,14 @@
-import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_colors.dart';
-import 'package:evently_app/core/app_style.dart';
+import 'package:evently_app/core/utils/app_assets.dart';
+import 'package:evently_app/core/utils/app_colors.dart';
+import 'package:evently_app/core/utils/app_style.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../../firebase_utils.dart';
+import '../../../model/event.dart';
 import '../../../providers/app_theme_provider.dart';
 
 class AddEvent extends StatefulWidget {
@@ -258,7 +260,7 @@ class _AddEventState extends State<AddEvent> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => addEvent(),
                 child: Text(
                   AppLocalizations.of(context)!.add_event,
                   style: AppStyles.regular18White,
@@ -290,14 +292,22 @@ class _AddEventState extends State<AddEvent> {
       ],
     );
   }
+  void addEvent() async {
+    if (formKey.currentState?.validate() == true) {
+      Event event = Event(
+        eventTitle: title,
+        eventName: selectedEventName,
+        eventDescription: description,
+        eventImage: selectedEventImage,
+        eventDate: selectedDate!,
+        eventTime: selectedEventTime,
+      );
 
-  void addEvent() {
-    if (formKey.currentState!.validate() == true) {
-      formKey.currentState!.save();
-      setState(() {
-        title = titleController.text;
-        description = descriptionController.text;
-      });
+      await FirebaseUtils.addEventsToFireStore(event);
+
+      print('Event added Successfully');
+      Navigator.pop(context);
     }
   }
-}
+  }
+

@@ -1,11 +1,11 @@
-import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_style.dart';
-import 'package:evently_app/core/app_theme.dart';
+import 'package:evently_app/core/utils/app_assets.dart';
+import 'package:evently_app/core/utils/app_style.dart';
+import 'package:evently_app/core/utils/app_theme.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/app_routes.dart';
+import '../../core/utils/app_routes.dart';
 import '../../providers/app_language_provider.dart';
 import '../home_screen/home_screen.dart';
 import 'on_boarding_pages/on_boarding_p1.dart';

@@ -1,11 +1,12 @@
-import 'package:evently_app/core/app_routes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_app/core/utils/app_routes.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'core/app_theme.dart';
+import 'core/utils/app_theme.dart';
 import 'features/auth/forget_pass/forget_pass_screen.dart';
 import 'features/auth/login/login_screen.dart';
 import 'features/auth/resgister/register_screen.dart';
@@ -19,6 +20,8 @@ import 'l10n/app_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await FirebaseFirestore.instance.disableNetwork();  ///access data offline data is cached local in mobile
   runApp(
     MultiProvider(
       providers: [
