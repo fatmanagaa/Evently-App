@@ -1,7 +1,7 @@
+import 'package:evently_app/features/home_screen/tabs/favourite/favourite_tab.dart';
+import 'package:evently_app/features/home_screen/tabs/home/home_tab.dart';
+import 'package:evently_app/features/home_screen/tabs/profile/profile_tab.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
-import 'package:evently_app/screens/home_screen/tabs/favourite/favourite_tab.dart';
-import 'package:evently_app/screens/home_screen/tabs/home/home_tab.dart';
-import 'package:evently_app/screens/home_screen/tabs/profile/profile_tab.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_routes.dart';

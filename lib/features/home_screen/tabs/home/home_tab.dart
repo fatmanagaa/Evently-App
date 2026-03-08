@@ -1,9 +1,9 @@
 import 'package:evently_app/core/app_colors.dart';
 import 'package:evently_app/core/app_style.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
+import 'package:evently_app/features/home_screen/tabs/home/widgets/event_item.dart';
+import 'package:evently_app/features/home_screen/tabs/home/widgets/tab_widget.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
-import 'package:evently_app/screens/home_screen/tabs/home/widgets/event_item.dart';
-import 'package:evently_app/screens/home_screen/tabs/home/widgets/tab_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeTab extends StatefulWidget {

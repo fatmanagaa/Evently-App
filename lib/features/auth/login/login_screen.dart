@@ -1,7 +1,6 @@
 import 'package:evently_app/core/app_assets.dart';
 import 'package:evently_app/core/app_colors.dart';
 import 'package:evently_app/core/app_style.dart';
-import 'package:evently_app/screens/home_screen/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +8,7 @@ import '../../../core/app_routes.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/app_language_provider.dart';
 import '../../../providers/app_theme_provider.dart';
+import '../../home_screen/widgets/custom_text_field.dart';
 import '../google_auth/google_auth.dart';
 
 class LoginScreen extends StatelessWidget {
