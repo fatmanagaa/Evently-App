@@ -40,7 +40,7 @@ class FavouriteTab extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 itemBuilder: (context, index) {
-                  return EventItem();
+                  return Container();
                 },
                 separatorBuilder: (context, index) {
                   return SizedBox(height: 10);
