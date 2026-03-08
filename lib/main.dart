@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.addEventScreen,
+        initialRoute: AppRoutes.splashScreen,
         routes: {
           AppRoutes.onboardingScreen: (context) => OnboardingScreen(),
           AppRoutes.homeScreen: (context) => HomeScreen(),
