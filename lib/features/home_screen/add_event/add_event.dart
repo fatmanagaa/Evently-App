@@ -181,9 +181,6 @@ class _AddEventState extends State<AddEvent> {
                   } else {
                     return null;
                   }
-
-
-
                 },
                 controller: titleController,
                 decoration: InputDecoration(
@@ -229,7 +226,6 @@ class _AddEventState extends State<AddEvent> {
                     : DateFormat('dd/MM/yyyy').format(selectedDate!),
                 onTap: () async {
                   DateTime? date = await showDatePicker(
-
                     context: context,
                     initialDate: DateTime.now(),
                     firstDate: DateTime.now(),
@@ -294,9 +290,9 @@ class _AddEventState extends State<AddEvent> {
       ],
     );
   }
-  void addEvent() {
 
-    if (formKey.currentState!.validate()==true) {
+  void addEvent() {
+    if (formKey.currentState!.validate() == true) {
       formKey.currentState!.save();
       setState(() {
         title = titleController.text;

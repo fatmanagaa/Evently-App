@@ -1,18 +1,18 @@
 import 'package:evently_app/core/app_routes.dart';
 import 'package:evently_app/providers/app_language_provider.dart';
 import 'package:evently_app/providers/app_theme_provider.dart';
-import 'package:evently_app/screens/auth/forget_pass/forget_pass_screen.dart';
-import 'package:evently_app/screens/auth/resgister/register_screen.dart';
-import 'package:evently_app/screens/home_screen/add_event/add_event.dart';
-import 'package:evently_app/screens/home_screen/home_screen.dart';
-import 'package:evently_app/screens/auth/login/login_screen.dart';
-import 'package:evently_app/screens/onBoarding_screen/onboarding_screen.dart';
-import 'package:evently_app/screens/splash_screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'core/app_theme.dart';
+import 'features/auth/forget_pass/forget_pass_screen.dart';
+import 'features/auth/login/login_screen.dart';
+import 'features/auth/resgister/register_screen.dart';
+import 'features/home_screen/add_event/add_event.dart';
+import 'features/home_screen/home_screen.dart';
+import 'features/onBoarding_screen/onboarding_screen.dart';
+import 'features/splash_screen/splash_screen.dart';
 import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 

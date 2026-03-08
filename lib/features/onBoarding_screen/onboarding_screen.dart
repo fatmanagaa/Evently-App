@@ -2,7 +2,6 @@ import 'package:evently_app/core/app_assets.dart';
 import 'package:evently_app/core/app_style.dart';
 import 'package:evently_app/core/app_theme.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
-import 'package:evently_app/screens/onBoarding_screen/on_boarding_pages/on_boarding_p3.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +10,7 @@ import '../../providers/app_language_provider.dart';
 import '../home_screen/home_screen.dart';
 import 'on_boarding_pages/on_boarding_p1.dart';
 import 'on_boarding_pages/on_boarding_p2.dart';
+import 'on_boarding_pages/on_boarding_p3.dart';
 import 'on_boarding_pages/on_boarding_p4.dart';
 
 class OnboardingScreen extends StatefulWidget {
