@@ -1,5 +1,5 @@
-import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_routes.dart';
+import 'package:evently_app/core/utils/app_assets.dart';
+import 'package:evently_app/core/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

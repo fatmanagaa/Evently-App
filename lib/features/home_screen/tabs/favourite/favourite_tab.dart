@@ -1,9 +1,9 @@
-import 'package:evently_app/core/app_colors.dart';
+import 'package:evently_app/core/utils/app_colors.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/app_style.dart';
+import '../../../../core/utils/app_style.dart';
 import '../../widgets/custom_text_field.dart';
 import '../home/widgets/event_item.dart';
 

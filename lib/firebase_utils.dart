@@ -9,7 +9,7 @@ class FirebaseUtils {
   ///write data
   static CollectionReference<Event> getEventCollection() {
     return FirebaseFirestore.instance
-        .collection(Event.eventsCollection)
+        .collection(Event.eventsCollectionName)
         .withConverter<Event>(
           fromFirestore: (snapshot, options) =>
               Event.fromJson(snapshot.data()!),

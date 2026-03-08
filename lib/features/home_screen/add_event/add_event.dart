@@ -1,6 +1,6 @@
-import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_colors.dart';
-import 'package:evently_app/core/app_style.dart';
+import 'package:evently_app/core/utils/app_assets.dart';
+import 'package:evently_app/core/utils/app_colors.dart';
+import 'package:evently_app/core/utils/app_style.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -292,27 +292,22 @@ class _AddEventState extends State<AddEvent> {
       ],
     );
   }
+  void addEvent() async {
+    if (formKey.currentState?.validate() == true) {
+      Event event = Event(
+        eventTitle: title,
+        eventName: selectedEventName,
+        eventDescription: description,
+        eventImage: selectedEventImage,
+        eventDate: selectedDate!,
+        eventTime: selectedEventTime,
+      );
 
-  void addEvent() {
+      await FirebaseUtils.addEventsToFireStore(event);
 
-      if (formKey.currentState?.validate() == true) {
-        Event event = Event(
-          eventTitle: title,
-          eventName: selectedEventName,
-          eventDescription: description,
-          eventImage: selectedEventImage,
-          eventDate: selectedDate!,
-          eventTime: selectedEventTime,
-        );
-
-        FirebaseUtils.addEventsToFireStore(event).timeout(
-          const Duration(seconds: 1),
-          onTimeout: () {
-            print('Event added Successfully.');
-            Navigator.pop(context);
-          },
-        );
-      }
+      print('Event added Successfully');
+      Navigator.pop(context);
     }
+  }
   }
 

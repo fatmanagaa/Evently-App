@@ -1,10 +1,14 @@
-import 'package:evently_app/core/app_colors.dart';
-import 'package:evently_app/core/app_style.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_app/core/utils/app_colors.dart';
+import 'package:evently_app/core/utils/app_style.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/features/home_screen/tabs/home/widgets/event_item.dart';
 import 'package:evently_app/features/home_screen/tabs/home/widgets/tab_widget.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../firebase_utils.dart';
+import '../../../../model/event.dart';
 
 class HomeTab extends StatefulWidget {
   HomeTab({super.key});
@@ -105,5 +109,17 @@ class _HomeTabState extends State<HomeTab> {
         ],
       ),
     );
+  }
+  void getEventsFromFireStore() async {
+    QuerySnapshot<Event> querySnapshot =
+    await FirebaseUtils.getEventCollection().get();
+
+    List<Event> eventsList = querySnapshot.docs.map((doc) {
+      return doc.data();
+    }).toList();
+
+    setState(() {
+      allEvents = eventsList;
+    });
   }
 }

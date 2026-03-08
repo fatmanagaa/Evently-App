@@ -1,10 +1,10 @@
-import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_colors.dart';
-import 'package:evently_app/core/app_style.dart';
+import 'package:evently_app/core/utils/app_assets.dart';
+import 'package:evently_app/core/utils/app_colors.dart';
+import 'package:evently_app/core/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/app_routes.dart';
+import '../../../core/utils/app_routes.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/app_language_provider.dart';
 import '../../../providers/app_theme_provider.dart';

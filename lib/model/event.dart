@@ -1,7 +1,7 @@
 class Event {
   /// collection names
-  static const String usersCollection = 'users';
-  static const String eventsCollection = 'events';
+  static const String usersCollectionName = 'users';
+  static const String eventsCollectionName = 'events';
 
   String id;
   String eventImage;
