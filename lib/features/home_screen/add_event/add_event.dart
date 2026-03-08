@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../../../firebase_utils.dart';
+import '../../../model/event.dart';
 import '../../../providers/app_theme_provider.dart';
 
 class AddEvent extends StatefulWidget {
@@ -258,7 +260,7 @@ class _AddEventState extends State<AddEvent> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => addEvent(),
                 child: Text(
                   AppLocalizations.of(context)!.add_event,
                   style: AppStyles.regular18White,
@@ -292,12 +294,25 @@ class _AddEventState extends State<AddEvent> {
   }
 
   void addEvent() {
-    if (formKey.currentState!.validate() == true) {
-      formKey.currentState!.save();
-      setState(() {
-        title = titleController.text;
-        description = descriptionController.text;
-      });
+
+      if (formKey.currentState?.validate() == true) {
+        Event event = Event(
+          eventTitle: title,
+          eventName: selectedEventName,
+          eventDescription: description,
+          eventImage: selectedEventImage,
+          eventDate: selectedDate!,
+          eventTime: selectedEventTime,
+        );
+
+        FirebaseUtils.addEventsToFireStore(event).timeout(
+          const Duration(seconds: 1),
+          onTimeout: () {
+            print('Event added Successfully.');
+            Navigator.pop(context);
+          },
+        );
+      }
     }
   }
-}
+
