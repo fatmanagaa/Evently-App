@@ -6,19 +6,40 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/utils/app_routes.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../providers/app_language_provider.dart';
 import '../../../providers/app_theme_provider.dart';
 import '../../home_screen/widgets/custom_text_field.dart';
 import '../google_auth/google_auth.dart';
-class LoginScreen extends StatelessWidget {
-   LoginScreen({super.key});
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class LoginScreen extends StatefulWidget {
+  LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
   final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+  bool passwordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    late var appLanguageProvider = Provider.of<AppLanguageProvider>(context);
-    late var appThemeProvider = Provider.of<AppThemeProvider>(context);
+    final appThemeProvider = Provider.of<AppThemeProvider>(context);
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -49,19 +70,16 @@ class LoginScreen extends StatelessWidget {
                   CustomTextField(
                     controller: emailController,
                     Validator: (value) {
-                      if (value!.isEmpty || value==null) {
+                      if (value == null || value.trim().isEmpty) {
                         return 'Please enter your email';
                       }
-                      final bool emailValid = RegExp(
+                      final emailValid = RegExp(
                         r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$",
                       ).hasMatch(value);
-                      if(!emailValid){
-                        return 'please enter your email'
-                        ;
+                      if (!emailValid) {
+                        return 'Please enter a valid email';
                       }
                       return null;
-        
-        
                     },
                     borderColor: appThemeProvider.isDarkMode()
                         ? AppColors.main
@@ -74,23 +92,26 @@ class LoginScreen extends StatelessWidget {
                       size: 25,
                     ),
                     hintText: AppLocalizations.of(context)!.enterEmail,
-                    hintStyle: AppStyles.regular14Grey,
+                      hintStyle: appThemeProvider.isDarkMode()
+                          ? AppStyles.regular14Grey.copyWith(color: Colors.white)
+                          : AppStyles.regular14Grey,
+                      style: appThemeProvider.isDarkMode()
+                          ? TextStyle(color: Colors.white)
+                          : null,
                   ),
                   CustomTextField(
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: !passwordVisible,
                     Validator: (value) {
-                      if (value!.isEmpty || value==null) {
-                        return 'Please enter your pass';
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
                       }
                       if (value.length < 6) {
                         return 'Password must be at least 6 characters';
                       }
                       return null;
-        
-        
                     },
-        
+
                     borderColor: appThemeProvider.isDarkMode()
                         ? AppColors.main
                         : AppColors.strokeColor,
@@ -101,17 +122,25 @@ class LoginScreen extends StatelessWidget {
                       color: AppColors.lightGrey,
                       size: 25,
                     ),
-                    suffixIcon: Icon(
-                      Icons.visibility_off,
-                      color: AppColors.lightGrey,
-                      size: 25,
+                    suffixIcon: GestureDetector(
+                      onTap: () => setState(() => passwordVisible = !passwordVisible),
+                      child: Icon(
+                        passwordVisible ? Icons.visibility : Icons.visibility_off,
+                        color: AppColors.lightGrey,
+                        size: 25,
+                      ),
                     ),
                     hintText: AppLocalizations.of(context)!.enterPassword,
-                    hintStyle: AppStyles.regular14Grey,
+                      hintStyle: appThemeProvider.isDarkMode()
+                          ? AppStyles.regular14Grey.copyWith(color: Colors.white)
+                          : AppStyles.regular14Grey,
+                      style: appThemeProvider.isDarkMode()
+                          ? TextStyle(color: Colors.white)
+                          : null,
                   ),
                   TextButton(
                     onPressed: () {
-                      //todo:navigate to forget password screen
+                      // navigate to forget password screen
                       Navigator.pushNamed(context, AppRoutes.forgetPassScreen);
                     },
                     child: Align(
@@ -131,15 +160,22 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.homeScreen);
-                    },
+                    onPressed: isLoading ? null : () => login(context),
                     child: Align(
                       alignment: Alignment.topCenter,
-                      child: Text(
-                        AppLocalizations.of(context)!.login,
-                        style: AppStyles.semi20White,
-                      ),
+                      child: isLoading
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              AppLocalizations.of(context)!.login,
+                              style: AppStyles.semi20White,
+                            ),
                     ),
                   ),
                   Row(
@@ -196,14 +232,33 @@ class LoginScreen extends StatelessWidget {
                     width: 343,
                     height: 43,
                     child: MaterialButton(
-                      onPressed: () async {
-                        //todo:navigate to google login
-                        final user = await signInWithGoogle();
-        
-                        if (user != null) {
-                          print("Email: ${user.user!.email}");
-        
-                        }},
+                       onPressed: isLoading
+                           ? null
+                           : () async {
+                               setState(() => isLoading = true);
+                               try {
+                                 final user = await signInWithGoogle();
+                                 if (user != null) {
+                                   // Use pushReplacementNamed to prevent back navigation
+                                   if (mounted) Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
+                                 } else {
+                                   // User cancelled Google sign-in
+                                   if (mounted) {
+                                     ScaffoldMessenger.of(context).showSnackBar(
+                                       const SnackBar(content: Text('Google sign-in cancelled')),
+                                     );
+                                   }
+                                 }
+                               } catch (e) {
+                                 if (mounted) {
+                                   ScaffoldMessenger.of(context).showSnackBar(
+                                     SnackBar(content: Text(e.toString())),
+                                   );
+                                 }
+                               } finally {
+                                 if (mounted) setState(() => isLoading = false);
+                               }
+                             },
                       color: appThemeProvider.isDarkMode()
                           ? AppColors.bgDarkMode
                           : AppColors.white,
@@ -241,26 +296,46 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-   Future<void> login() async {
-     if(formKey.currentState?.validate()==true){
-       try {
-         final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-             email: emailController.text,
-             password: passwordController.text
-         );
-         print('Login Sucsssfuylly');
-         print('id:${credential.user?.uid??''}');
-       } on FirebaseAuthException catch (e) {
-         if (e.code == 'user-not-found') {
-           print('No user found for that email.');
-         } else if (e.code == 'wrong-password') {
-           print('Wrong password provided for that user.');
-         }
-       }
-       catch(e){
-         print(e);
-       }
+  Future<void> login(BuildContext context) async {
+    if (isLoading) return;
+    if (formKey.currentState?.validate() != true) return;
 
-     }
-   }
+    setState(() => isLoading = true);
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text,
+      );
+
+      if (credential.user != null) {
+        // Clear controllers on success
+        emailController.clear();
+        passwordController.clear();
+        // Navigate to home (use pushReplacementNamed to prevent back navigation to login)
+        if (mounted) Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
+      }
+    } on FirebaseAuthException catch (e) {
+      String message = '';
+      if (e.code == 'user-not-found') {
+        message = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        message = 'Wrong password provided for that user.';
+      } else if (e.code == 'invalid-email') {
+        message = 'The email address is invalid.';
+      } else if (e.code == 'user-disabled') {
+        message = 'Your account has been disabled. Please contact support.';
+      } else if (e.code == 'too-many-requests') {
+        message = 'Too many login attempts. Please try again later.';
+      } else if (e.code == 'operation-not-allowed') {
+        message = 'Email/Password sign in is not enabled. Please contact support.';
+      } else {
+        message = e.message ?? e.code;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login failed: ${e.toString()}')));
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
+  }
 }

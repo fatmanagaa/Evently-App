@@ -29,7 +29,10 @@ class FavouriteTab extends StatelessWidget {
                   : AppColors.white,
       
               hintText: AppLocalizations.of(context)!.search_event,
-              hintStyle: AppStyles.regular14Grey,
+              hintStyle: context.isDark
+                  ? AppStyles.regular14Grey.copyWith(color: Colors.white)
+                  : AppStyles.regular14Grey,
+              style: context.isDark ? TextStyle(color: Colors.white) : null,
               suffixIcon: Icon(
                 Icons.search,
                 color: context.isDark ? AppColors.mainDarkMode : AppColors.main,

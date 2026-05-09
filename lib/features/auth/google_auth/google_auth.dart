@@ -5,24 +5,24 @@ final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 Future<UserCredential?> signInWithGoogle() async {
   try {
-    final GoogleSignInAccount? googleUser =
-    await _googleSignIn.signIn();
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
+    // User cancelled the sign-in flow
     if (googleUser == null) return null;
 
     final GoogleSignInAuthentication googleAuth =
-    await googleUser.authentication;
+        await googleUser.authentication;
 
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
-    return await FirebaseAuth.instance
-        .signInWithCredential(credential);
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  } on FirebaseAuthException catch (e) {
+    throw 'Firebase error: ${e.message ?? e.code}';
   } catch (e) {
-    print(e);
-    return null;
+    throw 'Google sign-in failed: $e';
   }
 }
 
