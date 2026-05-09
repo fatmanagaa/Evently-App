@@ -17,7 +17,6 @@ class FavouriteTab extends StatelessWidget {
     final theme = context.theme;
     return SafeArea(
       child: Scaffold(
-      
         body: Column(
           children: [
             CustomTextField(

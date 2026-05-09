@@ -1,6 +1,7 @@
 import 'package:evently_app/core/utils/app_assets.dart';
 import 'package:evently_app/core/utils/app_colors.dart';
 import 'package:evently_app/core/utils/app_style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/utils/app_routes.dart';
@@ -240,9 +241,26 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-   void login(){
+   Future<void> login() async {
      if(formKey.currentState?.validate()==true){
-       //todo:login
+       try {
+         final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+             email: emailController.text,
+             password: passwordController.text
+         );
+         print('Login Sucsssfuylly');
+         print('id:${credential.user?.uid??''}');
+       } on FirebaseAuthException catch (e) {
+         if (e.code == 'user-not-found') {
+           print('No user found for that email.');
+         } else if (e.code == 'wrong-password') {
+           print('Wrong password provided for that user.');
+         }
+       }
+       catch(e){
+         print(e);
+       }
+
      }
    }
 }

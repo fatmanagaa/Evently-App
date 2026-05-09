@@ -21,12 +21,12 @@ class OnBoardingP1 extends StatefulWidget {
 }
 
 class _OnBoardingP1State extends State<OnBoardingP1> {
-  bool isDark = false;
-  String selectedLang = "en";
-  late var appLanguageProvider = Provider.of<AppLanguageProvider>(context);
-  late var appThemeProvider = Provider.of<AppThemeProvider>(context);
+  // removed local state for language/theme selection; we'll read providers directly
   @override
   Widget build(BuildContext context) {
+    // read providers so UI updates when they change
+    var appLanguageProvider = Provider.of<AppLanguageProvider>(context);
+    var appThemeProvider = Provider.of<AppThemeProvider>(context);
 
     return SafeArea(
       child: Padding(
@@ -55,7 +55,7 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
                 ),
                 const Spacer(),
 
-                languageItem(context,AppLocalizations.of(context)!.english, "en"),
+                languageItem(context, AppLocalizations.of(context)!.english, "en"),
                 const SizedBox(width: 10),
                 languageItem(context, AppLocalizations.of(context)!.arabic, "ar"),
               ],
@@ -82,33 +82,29 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
     );
   }
   Widget languageItem(BuildContext context, String title, String code) {
-    bool isSelected = selectedLang == code;
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final appLanguageProvider = Provider.of<AppLanguageProvider>(context);
+    final appThemeProvider = Provider.of<AppThemeProvider>(context);
+
+    bool isSelected = appLanguageProvider.appLanguage == code;
+    bool isDarkLocal = appThemeProvider.isDarkMode();
 
     return GestureDetector(
       onTap: () {
-        //appLanguageProvider.changeLanguage('en');
-        showLanguageModalBottomSheet(context);
-
-        selectedLang = code;
-
-
-
-        setState(() {});
+        // change language immediately without showing any modal
+        appLanguageProvider.changeLanguage(code);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         decoration: BoxDecoration(
-          color: isDark
+          color: isDarkLocal
               ? (isSelected ? AppColors.mainDarkMode : AppColors.mainDarkColor_2)
               : (isSelected ? AppColors.main : Colors.white),
           borderRadius: BorderRadius.circular(10),
-
         ),
         child: Text(
           title,
           style: TextStyle(
-            color: isDark
+            color: isDarkLocal
                 ? (isSelected ? Colors.white : AppColors.main)
                 : (isSelected ? Colors.white : AppColors.main),
           ),
@@ -117,32 +113,36 @@ class _OnBoardingP1State extends State<OnBoardingP1> {
     );
   }
   Widget themeItem(IconData icon, bool dark) {
-    bool isSelected = isDark == dark;
+    // Use a Builder so we can read providers with the correct context when this
+    // widget is built inside the parent build method.
+    return Builder(builder: (context) {
+      final appThemeProvider = Provider.of<AppThemeProvider>(context);
+      bool isSelected = appThemeProvider.isDarkMode() == dark;
+      bool isDarkLocal = appThemeProvider.isDarkMode();
 
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-
-          showThemeModalBottomSheet(context);
-          isDark = dark;
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: isDark
-              ? (isSelected ? AppColors.mainDarkMode : AppColors.mainDarkColor_2)
-              : (isSelected ? AppColors.main : Colors.white),
-          borderRadius: BorderRadius.circular(10),
+      return GestureDetector(
+        onTap: () {
+          // apply theme immediately across the app
+          final newMode = dark ? ThemeMode.dark : ThemeMode.light;
+          appThemeProvider.changeTheme(newMode);
+        },
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: isDarkLocal
+                ? (isSelected ? AppColors.mainDarkMode : AppColors.mainDarkColor_2)
+                : (isSelected ? AppColors.main : Colors.white),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(
+            icon,
+            color: isDarkLocal
+                ? (isSelected ? Colors.white : AppColors.main)
+                : (isSelected ? Colors.white : AppColors.main),
+          ),
         ),
-        child: Icon(
-          icon,
-          color: isDark
-              ? (isSelected ? Colors.white : AppColors.main)
-              : (isSelected ? Colors.white : AppColors.main),
-        ),
-      ),
-    );
+      );
+    });
   }
   void showLanguageModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
