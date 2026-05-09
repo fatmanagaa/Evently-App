@@ -7,22 +7,45 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_routes.dart';
 import '../../../core/utils/app_style.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../providers/app_language_provider.dart';
 import '../../../providers/app_theme_provider.dart';
 import '../../home_screen/widgets/custom_text_field.dart';
+import '../google_auth/google_auth.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   RegisterScreen({super.key});
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController repasswordController = TextEditingController();
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late TextEditingController repasswordController;
   final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+  bool passwordVisible = false;
+  bool repasswordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    repasswordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    repasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    late var appLanguageProvider = Provider.of<AppLanguageProvider>(context);
-    late var appThemeProvider = Provider.of<AppThemeProvider>(context);
+    final appThemeProvider = Provider.of<AppThemeProvider>(context);
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -62,19 +85,24 @@ class RegisterScreen extends StatelessWidget {
                       size: 25,
                     ),
                     hintText: AppLocalizations.of(context)!.enterName,
-                    hintStyle: AppStyles.regular14Grey,
+                      hintStyle: appThemeProvider.isDarkMode()
+                          ? AppStyles.regular14Grey.copyWith(color: Colors.white)
+                          : AppStyles.regular14Grey,
+                      style: appThemeProvider.isDarkMode()
+                          ? TextStyle(color: Colors.white)
+                          : null,
                   ),
                   CustomTextField(
                     controller: emailController,
                     Validator: (value) {
-                      if (value!.isEmpty || value == null) {
+                      if (value == null || value.trim().isEmpty) {
                         return 'Please enter your email';
                       }
-                      final bool emailValid = RegExp(
+                      final emailValid = RegExp(
                         r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$",
                       ).hasMatch(value);
                       if (!emailValid) {
-                        return 'please enter your email';
+                        return 'Please enter a valid email';
                       }
                       return null;
                     },
@@ -88,24 +116,28 @@ class RegisterScreen extends StatelessWidget {
                       color: AppColors.lightGrey,
                       size: 25,
                     ),
-        
+
                     hintText: AppLocalizations.of(context)!.enterEmail,
-                    hintStyle: AppStyles.regular14Grey,
+                      hintStyle: appThemeProvider.isDarkMode()
+                          ? AppStyles.regular14Grey.copyWith(color: Colors.white)
+                          : AppStyles.regular14Grey,
+                      style: appThemeProvider.isDarkMode()
+                          ? TextStyle(color: Colors.white)
+                          : null,
                   ),
                   CustomTextField(
                     controller: passwordController,
                     Validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Please enter your pass';
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
                       }
                       if (value.length < 6) {
                         return 'Password must be at least 6 characters';
                       }
                       return null;
                     },
-                    obscureText: true,
-        
-        
+                    obscureText: !passwordVisible,
+
                     borderColor: appThemeProvider.isDarkMode()
                         ? AppColors.main
                         : AppColors.strokeColor,
@@ -116,27 +148,35 @@ class RegisterScreen extends StatelessWidget {
                       color: AppColors.lightGrey,
                       size: 25,
                     ),
-                    suffixIcon: Icon(
-                      Icons.visibility_off,
-                      color: AppColors.lightGrey,
-                      size: 25,
+                    suffixIcon: GestureDetector(
+                      onTap: () => setState(() => passwordVisible = !passwordVisible),
+                      child: Icon(
+                        passwordVisible ? Icons.visibility : Icons.visibility_off,
+                        color: AppColors.lightGrey,
+                        size: 25,
+                      ),
                     ),
                     hintText: AppLocalizations.of(context)!.enterPassword,
-                    hintStyle: AppStyles.regular14Grey,
+                      hintStyle: appThemeProvider.isDarkMode()
+                          ? AppStyles.regular14Grey.copyWith(color: Colors.white)
+                          : AppStyles.regular14Grey,
+                      style: appThemeProvider.isDarkMode()
+                          ? TextStyle(color: Colors.white)
+                          : null,
                   ),
                   CustomTextField(
                     controller: repasswordController,
                     Validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Please enter your pass';
+                      if (value == null || value.isEmpty) {
+                        return 'Please confirm your password';
                       }
                       if (value != passwordController.text) {
                         return 'Password does not match';
                       }
                       return null;
                     },
-                    obscureText: true,
-        
+                    obscureText: !repasswordVisible,
+
                     borderColor: appThemeProvider.isDarkMode()
                         ? AppColors.main
                         : AppColors.strokeColor,
@@ -147,25 +187,40 @@ class RegisterScreen extends StatelessWidget {
                       color: AppColors.lightGrey,
                       size: 25,
                     ),
-                    suffixIcon: Icon(
-                      Icons.visibility_off,
-                      color: AppColors.lightGrey,
-                      size: 25,
+                    suffixIcon: GestureDetector(
+                      onTap: () => setState(() => repasswordVisible = !repasswordVisible),
+                      child: Icon(
+                        repasswordVisible ? Icons.visibility : Icons.visibility_off,
+                        color: AppColors.lightGrey,
+                        size: 25,
+                      ),
                     ),
                     hintText: AppLocalizations.of(context)!.confirmPassword,
-                    hintStyle: AppStyles.regular14Grey,
+                      hintStyle: appThemeProvider.isDarkMode()
+                          ? AppStyles.regular14Grey.copyWith(color: Colors.white)
+                          : AppStyles.regular14Grey,
+                      style: appThemeProvider.isDarkMode()
+                          ? TextStyle(color: Colors.white)
+                          : null,
                   ),
-        
+
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.homeScreen);
-                    },
+                    onPressed: isLoading ? null : () => register(context),
                     child: Align(
                       alignment: Alignment.topCenter,
-                      child: Text(
-                        AppLocalizations.of(context)!.signUp,
-                        style: AppStyles.semi20White,
-                      ),
+                      child: isLoading
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              AppLocalizations.of(context)!.signUp,
+                              style: AppStyles.semi20White,
+                            ),
                     ),
                   ),
                   Row(
@@ -222,13 +277,36 @@ class RegisterScreen extends StatelessWidget {
                     width: 343,
                     height: 43,
                     child: MaterialButton(
-                      onPressed: () {
-                        //todo:navigate to google login
-                      },
+                      onPressed: isLoading
+                          ? null
+                          : () async {
+                              setState(() => isLoading = true);
+                              try {
+                                final user = await signInWithGoogle();
+                                if (user != null) {
+                                  // Use pushReplacementNamed to prevent back navigation
+                                  if (mounted) Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
+                                } else {
+                                  // User cancelled Google sign-in
+                                  if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Google sign-up cancelled')),
+                                    );
+                                  }
+                                }
+                              } catch (e) {
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(content: Text(e.toString())));
+                                }
+                              } finally {
+                                if (mounted) setState(() => isLoading = false);
+                              }
+                            },
                       color: appThemeProvider.isDarkMode()
                           ? AppColors.bgDarkMode
                           : AppColors.white,
-        
+
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                         side: BorderSide(
@@ -265,24 +343,46 @@ class RegisterScreen extends StatelessWidget {
       ),
     );
   }
-  Future<void> register() async {
-    if(formKey.currentState?.validate()==true){
-      try {
-        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-        print('Reg Sucsssfuylly');
-        print('id:${credential.user?.uid??''}');
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
-        }
-      } catch (e) {
-        print(e);
+
+  Future<void> register(BuildContext context) async {
+    if (isLoading) return;
+    if (formKey.currentState?.validate() != true) return;
+
+    setState(() => isLoading = true);
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text,
+      );
+
+      if (credential.user != null) {
+        // Clear controllers on success
+        emailController.clear();
+        passwordController.clear();
+        repasswordController.clear();
+        // Navigate to home (use pushReplacementNamed to prevent back navigation to register)
+        if (mounted) Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
       }
+    } on FirebaseAuthException catch (e) {
+      String message;
+      if (e.code == 'weak-password') {
+        message = 'The password provided is too weak. Use at least 6 characters with a mix of letters and numbers.';
+      } else if (e.code == 'email-already-in-use') {
+        message = 'The account already exists for that email. Please login instead.';
+      } else if (e.code == 'invalid-email') {
+        message = 'The email address is invalid.';
+      } else if (e.code == 'operation-not-allowed') {
+        message = 'Email/Password registration is not enabled. Please contact support.';
+      } else if (e.code == 'too-many-requests') {
+        message = 'Too many registration attempts. Please try again later.';
+      } else {
+        message = e.message ?? e.code;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration failed: ${e.toString()}')));
+    } finally {
+      if (mounted) setState(() => isLoading = false);
     }
   }
 }

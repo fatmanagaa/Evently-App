@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/utils/app_colors.dart';
-import 'custom_text_field.dart';
 
 typedef onChanged = void Function(String);
 typedef onValidator = String? Function(String?);
 
 class CustomTextField extends StatelessWidget {
-  bool? filled;
-  Color? fillColor;
-  Color? borderColor;
-  Widget? prefixIcon;
-  Widget? suffixIcon;
-  String? hintText;
-  TextStyle? hintStyle;
-  String? labelText;
-  TextStyle? labelStyle;
-  String? errorText;
-  TextStyle? errorStyle;
-  TextEditingController? controller;
-  int? maxLines;
-  void Function(String)? onChanged;
-  onValidator? Validator;
-  bool obscureText;
-
-  TextInputType keyboardType;
+  final bool? filled;
+  final Color? fillColor;
+  final Color? borderColor;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final String? labelText;
+  final TextStyle? labelStyle;
+  final String? errorText;
+  final TextStyle? errorStyle;
+  final TextStyle? style;
+  final TextEditingController? controller;
+  final int? maxLines;
+  final void Function(String)? onChanged;
+  final onValidator? Validator;
+  final bool obscureText;
+  final TextInputType keyboardType;
 
   CustomTextField({
     super.key,
@@ -39,6 +38,7 @@ class CustomTextField extends StatelessWidget {
     this.labelStyle,
     this.errorText,
     this.errorStyle,
+    this.style,
     this.controller,
     this.maxLines,
     this.onChanged,
@@ -56,7 +56,8 @@ class CustomTextField extends StatelessWidget {
       obscureText: obscureText,
 
       onChanged: onChanged,
-      controller: TextEditingController(),
+      controller: controller,
+      style: style,
       maxLines: maxLines ?? 1,
       decoration: InputDecoration(
         enabledBorder: buildDecorationBorder(
