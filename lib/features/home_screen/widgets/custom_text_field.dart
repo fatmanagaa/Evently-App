@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../core/utils/app_colors.dart';
 import 'custom_text_field.dart';
+
 typedef onChanged = void Function(String);
 typedef onValidator = String? Function(String?);
-
 
 class CustomTextField extends StatelessWidget {
   bool? filled;
@@ -22,8 +22,9 @@ class CustomTextField extends StatelessWidget {
   int? maxLines;
   void Function(String)? onChanged;
   onValidator? Validator;
+  bool obscureText;
 
-
+  TextInputType keyboardType;
 
   CustomTextField({
     super.key,
@@ -41,18 +42,23 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.maxLines,
     this.onChanged,
-     this.Validator,
+    this.Validator,
+    this.obscureText = false,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: Validator ,
+      keyboardType: keyboardType,
+
+      validator: Validator,
+      obscureText: obscureText,
+
       onChanged: onChanged,
       controller: TextEditingController(),
-      maxLines:maxLines?? 1 ,
+      maxLines: maxLines ?? 1,
       decoration: InputDecoration(
-
         enabledBorder: buildDecorationBorder(
           radius: 16.0,
           color: borderColor,

@@ -1,11 +1,15 @@
 import 'package:evently_app/core/utils/app_assets.dart';
 import 'package:evently_app/core/utils/app_style.dart';
+import 'package:evently_app/model/event.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/extensions/context_extensions.dart';
 
 class EventItem extends StatelessWidget {
-  const EventItem({super.key});
+  final Event event;
+
+  const EventItem({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,7 @@ class EventItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage(AppAssets.birthday),
+          image: AssetImage(event.eventImage),
         ),
       ),
       child: Container(
@@ -39,34 +43,45 @@ class EventItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                color: context.isDark ? AppColors.mainDarkMode : AppColors.white,
+                color: context.isDark
+                    ? AppColors.mainDarkMode
+                    : AppColors.white,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                '21\\nJan',
+                DateFormat('dd/MM/yyyy').format(event.eventDate),
+
                 textAlign: TextAlign.center,
-                style: context.isDark ? AppStyles.medium18mainDark : AppStyles.medium18main,
+                style: context.isDark
+                    ? AppStyles.medium18mainDark
+                    : AppStyles.medium18main,
               ),
             ),
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: context.isDark ? AppColors.mainDarkMode : AppColors.white,
+                color: context.isDark
+                    ? AppColors.mainDarkMode
+                    : AppColors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
-                      'This is a Birthday Party',
-                      style: context.isDark ? AppStyles.medium16Black : AppStyles.medium16Black,
+                      event.eventTitle,
+                      style: context.isDark
+                          ? AppStyles.medium16Black
+                          : AppStyles.medium16Black,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Icon(
                     Icons.favorite_border,
-                    color: context.isDark ? AppColors.mainDarkMode : AppColors.main,
+                    color: context.isDark
+                        ? AppColors.mainDarkMode
+                        : AppColors.main,
                   ),
                 ],
               ),

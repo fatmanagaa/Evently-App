@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AppThemeProvider extends ChangeNotifier {
-  ThemeMode appTheme=ThemeMode.light;
+  ThemeMode appTheme = ThemeMode.light;
+
   void changeTheme(ThemeMode newMode) {
-    if (newMode == ThemeMode.light) {
-      return;
-    }
+    // if the requested theme is the same as current, do nothing
+    if (newMode == appTheme) return;
     appTheme = newMode;
     notifyListeners();
   }

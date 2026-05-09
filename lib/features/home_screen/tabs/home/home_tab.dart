@@ -5,7 +5,9 @@ import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/features/home_screen/tabs/home/widgets/event_item.dart';
 import 'package:evently_app/features/home_screen/tabs/home/widgets/tab_widget.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/providers/event_list_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../firebase_utils.dart';
 import '../../../../model/event.dart';
@@ -20,9 +22,21 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   int selectedIndex = 0;
   List<String> eventsNameList = [];
+  List<Event> eventsList = [];
+  late EventListProvider eventListProvider;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      eventListProvider.getEventsFromFireStore();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    eventListProvider = Provider.of<EventListProvider>(context);
     final width = context.width;
     final height = context.height;
 
@@ -42,7 +56,9 @@ class _HomeTabState extends State<HomeTab> {
       appBar: AppBar(
         toolbarHeight: height * 0.12,
         centerTitle: false,
-        backgroundColor: context.isDark ? AppColors.mainDarkMode : AppColors.main,
+        backgroundColor: context.isDark
+            ? AppColors.mainDarkMode
+            : AppColors.main,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(24),
@@ -84,42 +100,43 @@ class _HomeTabState extends State<HomeTab> {
                   String eventName = entry.value;
                   return TabWidget(
                     isSelected: selectedIndex == idx,
-                    selectedColor: context.isDark ? AppColors.mainDarkMode : AppColors.main,
+                    selectedColor: context.isDark
+                        ? AppColors.mainDarkMode
+                        : AppColors.main,
                     unSelectedColor: Colors.transparent,
                     eventsName: eventName,
                     selectedTextStyle: AppStyles.medium16White,
-                    unSelectedTextStyle: context.isDark ? AppStyles.medium16White : AppStyles.medium16Main,
+                    unSelectedTextStyle: context.isDark
+                        ? AppStyles.medium16White
+                        : AppStyles.medium16Main,
                   );
                 }).toList(),
               ),
             ),
           ),
           Expanded(
-            child: ListView.separated(
-              padding: EdgeInsets.all(16),
-              itemBuilder: (context, index) {
-                return EventItem();
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 16);
-              },
-              itemCount: 20,
-            ),
+            child: eventListProvider.eventsList.isEmpty
+                ? Center(
+                    child: Text(
+                      'No Events Found',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  )
+                : ListView.separated(
+                    padding: EdgeInsets.all(16),
+                    itemBuilder: (context, index) {
+                      return EventItem(
+                        event: eventListProvider.eventsList[index],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 16);
+                    },
+                    itemCount: eventListProvider.eventsList.length,
+                  ),
           ),
         ],
       ),
     );
-  }
-  void getEventsFromFireStore() async {
-    QuerySnapshot<Event> querySnapshot =
-    await FirebaseUtils.getEventCollection().get();
-
-    List<Event> eventsList = querySnapshot.docs.map((doc) {
-      return doc.data();
-    }).toList();
-
-    setState(() {
-      allEvents = eventsList;
-    });
   }
 }

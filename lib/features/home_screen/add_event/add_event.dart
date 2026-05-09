@@ -3,6 +3,7 @@ import 'package:evently_app/core/utils/app_colors.dart';
 import 'package:evently_app/core/utils/app_style.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/providers/event_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -44,9 +45,12 @@ class _AddEventState extends State<AddEvent> {
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  late EventListProvider eventListProvider;
 
   @override
   Widget build(BuildContext context) {
+    eventListProvider= Provider.of<EventListProvider>(context);
+
     final height = context.height;
     final width = context.width;
     var themeProvider = Provider.of<AppThemeProvider>(context);
@@ -304,8 +308,7 @@ class _AddEventState extends State<AddEvent> {
       );
 
       await FirebaseUtils.addEventsToFireStore(event);
-
-      print('Event added Successfully');
+eventListProvider.getEventsFromFireStore();
       Navigator.pop(context);
     }
   }
