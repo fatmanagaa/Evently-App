@@ -4,7 +4,10 @@ import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/features/home_screen/tabs/home/widgets/event_item.dart';
 import 'package:evently_app/features/home_screen/tabs/home/widgets/tab_widget.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../../providers/event_list_provider.dart';
 
 class HomeTab extends StatefulWidget {
   HomeTab({super.key});
@@ -22,18 +25,18 @@ class _HomeTabState extends State<HomeTab> {
     final width = context.width;
     final height = context.height;
 
-    eventsNameList = [
+    final eventCategories = [
       AppLocalizations.of(context)!.all,
       AppLocalizations.of(context)!.sports,
       AppLocalizations.of(context)!.birthday,
       AppLocalizations.of(context)!.meeting,
-      AppLocalizations.of(context)!.gaming,
-      AppLocalizations.of(context)!.workshop,
       AppLocalizations.of(context)!.book_club,
       AppLocalizations.of(context)!.exhibition,
-      AppLocalizations.of(context)!.holiday,
-      AppLocalizations.of(context)!.eating,
     ];
+
+    // Get current user for filtering
+    final currentUser = FirebaseAuth.instance.currentUser;
+    
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: height * 0.12,
@@ -59,13 +62,13 @@ class _HomeTabState extends State<HomeTab> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 16),
-          SizedBox(
-            height: 50,
-            child: DefaultTabController(
-              length: eventsNameList.length,
+      body: DefaultTabController(
+        length: eventCategories.length,
+        child: Column(
+          children: [
+            SizedBox(height: 16),
+            SizedBox(
+              height: 50,
               child: TabBar(
                 isScrollable: true,
                 tabAlignment: TabAlignment.start,
@@ -75,7 +78,7 @@ class _HomeTabState extends State<HomeTab> {
                   selectedIndex = index;
                   setState(() {});
                 },
-                tabs: eventsNameList.asMap().entries.map((entry) {
+                tabs: eventCategories.asMap().entries.map((entry) {
                   int idx = entry.key;
                   String eventName = entry.value;
                   return TabWidget(
@@ -89,20 +92,107 @@ class _HomeTabState extends State<HomeTab> {
                 }).toList(),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.separated(
-              padding: EdgeInsets.all(16),
-              itemBuilder: (context, index) {
-                return EventItem();
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 16);
-              },
-              itemCount: 20,
+            Expanded(
+              child: Consumer<EventListProvider>(
+                builder: (context, eventProvider, _) {
+                  // Determine which stream to use
+                  Stream<List<Event>> getEventStream() {
+                    if (selectedIndex == 0) {
+                      // All events
+                      return eventProvider.getEventsStream(userId: currentUser?.uid);
+                    } else {
+                      // Events by category
+                      final category = eventCategories[selectedIndex];
+                      return eventProvider.getEventsByCategoryStream(
+                        category,
+                        userId: currentUser?.uid,
+                      );
+                    }
+                  }
+
+                  return StreamBuilder<List<Event>>(
+                    stream: getEventStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.main,
+                          ),
+                        );
+                      }
+
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.error_outline,
+                                color: Colors.red,
+                                size: 48,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                'Error loading events',
+                                style: AppStyles.medium16Black,
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                snapshot.error.toString(),
+                                style: AppStyles.regular14Grey,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      final events = snapshot.data ?? [];
+
+                      if (events.isEmpty) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.event_note,
+                                color: AppColors.lightGrey,
+                                size: 48,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                'No events found',
+                                style: AppStyles.medium16Black,
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                selectedIndex == 0
+                                    ? 'Create your first event'
+                                    : 'No events in this category',
+                                style: AppStyles.regular14Grey,
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      return ListView.separated(
+                        padding: EdgeInsets.all(16),
+                        itemBuilder: (context, index) {
+                          return EventItem(event: events[index]);
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: 16);
+                        },
+                        itemCount: events.length,
+                      );
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

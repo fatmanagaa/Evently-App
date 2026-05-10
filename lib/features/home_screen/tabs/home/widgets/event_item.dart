@@ -1,16 +1,49 @@
 import 'package:evently_app/core/app_assets.dart';
 import 'package:evently_app/core/app_style.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../../../../../core/app_colors.dart';
 import '../../../../../core/extensions/context_extensions.dart';
+import '../../../../../providers/event_list_provider.dart';
 
 class EventItem extends StatelessWidget {
-  const EventItem({super.key});
+  final Event event;
+  
+  const EventItem({
+    super.key,
+    required this.event,
+  });
+
+  /// Get category image based on category name
+  String _getCategoryImage(BuildContext context) {
+    switch (event.category.toLowerCase()) {
+      case 'book club':
+        return AppAssets.getBookClubImage(context);
+      case 'sports':
+        return AppAssets.getSportImage(context);
+      case 'birthday':
+        return AppAssets.getBirtDayImage(context);
+      case 'meeting':
+        return AppAssets.getMeetingImage(context);
+      case 'exhibition':
+        return AppAssets.getExhibitionImage(context);
+      default:
+        return AppAssets.birthday;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final width = context.width;
     final height = context.height;
+    final eventProvider = Provider.of<EventListProvider>(context, listen: false);
+    
+    // Format the date to show day and month
+    final dayFormat = DateFormat('dd');
+    final monthFormat = DateFormat('MMM');
+    final day = dayFormat.format(event.date);
+    final month = monthFormat.format(event.date);
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: 8),
@@ -19,7 +52,7 @@ class EventItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage(AppAssets.birthday),
+          image: AssetImage(_getCategoryImage(context)),
         ),
       ),
       child: Container(
@@ -43,7 +76,7 @@ class EventItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                '21\\nJan',
+                '$day\n$month',
                 textAlign: TextAlign.center,
                 style: context.isDark ? AppStyles.medium18mainDark : AppStyles.medium18main,
               ),
@@ -57,16 +90,34 @@ class EventItem extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      'This is a Birthday Party',
-                      style: context.isDark ? AppStyles.medium16Black : AppStyles.medium16Black,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          event.title,
+                          style: context.isDark ? AppStyles.medium16Black : AppStyles.medium16Black,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          '${event.time.hour.toString().padLeft(2, '0')}:${event.time.minute.toString().padLeft(2, '0')}',
+                          style: AppStyles.regular14Grey,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
                   ),
-                  Icon(
-                    Icons.favorite_border,
-                    color: context.isDark ? AppColors.mainDarkMode : AppColors.main,
+                  InkWell(
+                    onTap: () {
+                      eventProvider.toggleFavorite(event);
+                    },
+                    child: Icon(
+                      event.isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: context.isDark ? AppColors.mainDarkMode : AppColors.main,
+                    ),
                   ),
                 ],
               ),
