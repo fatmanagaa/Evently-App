@@ -1,5 +1,5 @@
-import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_routes.dart';
+import 'package:evently_app/core/utils/app_assets.dart';
+import 'package:evently_app/core/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 8), () {
       Navigator.pushReplacementNamed(context, AppRoutes.onboardingScreen);
     });
   }
@@ -31,16 +31,6 @@ class _SplashScreenState extends State<SplashScreen> {
               Center(
                 child: Image.asset(
                   AppAssets.getSplashLogo(context),
-                  width: 300,
-                  height: 50,
-                ),
-              ),
-              SizedBox(height: 250),
-              Center(
-                child: Image.asset(
-                  AppAssets.getBrandingImage(context),
-                  width: 210,
-                  height: 50,
                 ),
               ),
             ],

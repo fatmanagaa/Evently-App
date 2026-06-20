@@ -4,7 +4,7 @@ import 'package:evently_app/features/home_screen/tabs/profile/profile_tab.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/app_routes.dart';
+import '../../core/utils/app_routes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
