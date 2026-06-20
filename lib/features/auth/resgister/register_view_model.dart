@@ -1,49 +1,86 @@
 //todo: viewModel => observable => stateManagement
+//todo: hold data - handle logic
+
+import 'package:evently_app/features/auth/resgister/register_navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterViewModel extends ChangeNotifier {
-  //todo: hold data - handle logic
-  Future<void> register(BuildContext context) async {
-    if (isLoading) return;
-    if (formKey.currentState?.validate() != true) return;
+  ///this is the data
+  final formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final repasswordController = TextEditingController();
+  bool _isLoading = false;
 
-    setState(() => isLoading = true);
+  bool get isLoading => _isLoading;
+  RegisterNavigator? navigator;
+
+  Future<void> register(BuildContext context) async {
+    if (_isLoading) return;
+    if (formKey.currentState?.validate() != true) return;
+    _setLoading(true);
+
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text,
-      );
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text,
+          );
 
       if (credential.user != null) {
-        // Clear controllers on success
-        emailController.clear();
-        passwordController.clear();
-        repasswordController.clear();
+        _clearControllers();
+
         // Navigate to home (use pushReplacementNamed to prevent back navigation to register)
-        if (mounted) Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
+        navigator?.goHome();
       }
     } on FirebaseAuthException catch (e) {
-      String message;
-      if (e.code == 'weak-password') {
-        message = 'The password provided is too weak. Use at least 6 characters with a mix of letters and numbers.';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'The account already exists for that email. Please login instead.';
-      } else if (e.code == 'invalid-email') {
-        message = 'The email address is invalid.';
-      } else if (e.code == 'operation-not-allowed') {
-        message = 'Email/Password registration is not enabled. Please contact support.';
-      } else if (e.code == 'too-many-requests') {
-        message = 'Too many registration attempts. Please try again later.';
-      } else {
-        message = e.message ?? e.code;
-      }
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+      navigator?.showErrorMessage(_getErrorMessage(e));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration failed: ${e.toString()}')));
+      navigator?.showErrorMessage('Error Try Again${e.toString()}');
     } finally {
-      if (mounted) setState(() => isLoading = false);
+      _setLoading(false);
     }
   }
 
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  void setLoading(bool value) {
+    _setLoading(value);
+  }
+
+  void _clearControllers() {
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    repasswordController.clear();
+  }
+
+  String _getErrorMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'weak-password':
+        return 'Password is too weak — use at least 6 characters';
+      case 'email-already-in-use':
+        return 'This email is already in use — please sign in';
+      case 'invalid-email':
+        return 'Invalid email address';
+      case 'too-many-requests':
+        return 'Too many attempts — please try again later';
+      default:
+        return e.message ?? 'An unexpected error occurred';
+    }
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    repasswordController.dispose();
+    super.dispose();
+  }
 }
