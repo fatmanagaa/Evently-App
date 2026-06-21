@@ -15,7 +15,7 @@ class RegisterViewModel extends ChangeNotifier {
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
-  RegisterNavigator? navigator;
+  RegisterNavigator ?navigator;
 
   Future<void> register(BuildContext context) async {
     if (_isLoading) return;
