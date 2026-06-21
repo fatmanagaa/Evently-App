@@ -29,6 +29,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => EventListProvider()),
         ChangeNotifierProvider(create: (context) => AppLanguageProvider()),
         ChangeNotifierProvider(create: (context) => AppThemeProvider()),
+        ChangeNotifierProvider(create: (context) => EventListProvider()),
       ],
       child: const MyApp(),
     ),

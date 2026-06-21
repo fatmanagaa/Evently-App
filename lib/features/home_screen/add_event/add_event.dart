@@ -1,16 +1,15 @@
-import 'package:evently_app/core/utils/app_assets.dart';
-import 'package:evently_app/core/utils/app_colors.dart';
-import 'package:evently_app/core/utils/app_style.dart';
+import 'package:evently_app/core/app_assets.dart';
+import 'package:evently_app/core/app_colors.dart';
+import 'package:evently_app/core/app_style.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
-import 'package:evently_app/providers/event_list_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../firebase_utils.dart';
-import '../../../model/event.dart';
 import '../../../providers/app_theme_provider.dart';
+import '../../../providers/event_list_provider.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({super.key});
@@ -25,6 +24,7 @@ class _AddEventState extends State<AddEvent> {
   TimeOfDay? selectedTime;
   var formKey = GlobalKey<FormState>();
   String selectedEventName = '';
+  bool isLoading = false;
 
   ///to store in firestore
   String selectedEventImage = '';
@@ -45,15 +45,28 @@ class _AddEventState extends State<AddEvent> {
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
-  late EventListProvider eventListProvider;
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    eventListProvider= Provider.of<EventListProvider>(context);
-
     final height = context.height;
     final width = context.width;
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    
+    final List<String> eventCategories = [
+      AppLocalizations.of(context)!.book_club,
+      AppLocalizations.of(context)!.sports,
+      AppLocalizations.of(context)!.birthday,
+      AppLocalizations.of(context)!.meeting,
+      AppLocalizations.of(context)!.exhibition,
+    ];
+
     late List<String> categoryImages = [
       AppAssets.getBookClubImage(context),
       AppAssets.getSportImage(context),
@@ -62,29 +75,6 @@ class _AddEventState extends State<AddEvent> {
       AppAssets.getExhibitionImage(context),
     ];
 
-    List<String> eventCategories = [
-      AppLocalizations.of(context)!.book_club,
-      AppLocalizations.of(context)!.sports,
-      AppLocalizations.of(context)!.birthday,
-      AppLocalizations.of(context)!.meeting,
-      // AppLocalizations.of(context)!.gaming,
-      // AppLocalizations.of(context)!.workshop,
-      AppLocalizations.of(context)!.exhibition,
-      // AppLocalizations.of(context)!.holiday,
-      // AppLocalizations.of(context)!.eating,
-    ];
-
-    List<IconData> categoryIcons = [
-      Icons.menu_book_outlined,
-      Icons.directions_run_outlined,
-      Icons.cake_outlined,
-      Icons.groups_outlined,
-      Icons.videogame_asset_outlined,
-      Icons.work_outline,
-      Icons.palette_outlined,
-      Icons.celebration_outlined,
-      Icons.restaurant_outlined,
-    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -134,45 +124,45 @@ class _AddEventState extends State<AddEvent> {
               ),
               const SizedBox(height: 16),
 
-              SizedBox(
-                height: 45,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => GestureDetector(
-                    onTap: () => setState(() => selectedIndex = index),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: selectedIndex == index
-                            ? AppColors.main
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: AppColors.main),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            categoryIcons[index],
-                            color: selectedIndex == index
-                                ? AppColors.white
-                                : AppColors.main,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            eventCategories[index],
-                            style: selectedIndex == index
-                                ? AppStyles.medium16White
-                                : AppStyles.medium16Main,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(width: 10),
-                  itemCount: eventCategories.length,
-                ),
-              ),
+               SizedBox(
+                 height: 45,
+                 child: ListView.separated(
+                   scrollDirection: Axis.horizontal,
+                   itemBuilder: (context, index) => GestureDetector(
+                     onTap: () => setState(() => selectedIndex = index),
+                     child: Container(
+                       padding: const EdgeInsets.symmetric(horizontal: 16),
+                       decoration: BoxDecoration(
+                         color: selectedIndex == index
+                             ? AppColors.main
+                             : Colors.transparent,
+                         borderRadius: BorderRadius.circular(24),
+                         border: Border.all(color: AppColors.main),
+                       ),
+                       child: Row(
+                         children: [
+                           Icon(
+                             Icons.category,
+                             color: selectedIndex == index
+                                 ? AppColors.white
+                                 : AppColors.main,
+                           ),
+                           const SizedBox(width: 8),
+                           Text(
+                             eventCategories[index],
+                             style: selectedIndex == index
+                                 ? AppStyles.medium16White
+                                 : AppStyles.medium16Main,
+                           ),
+                         ],
+                       ),
+                     ),
+                   ),
+                   separatorBuilder: (context, index) =>
+                       const SizedBox(width: 10),
+                   itemCount: eventCategories.length,
+                 ),
+               ),
 
               const SizedBox(height: 16),
               Text(
@@ -255,21 +245,34 @@ class _AddEventState extends State<AddEvent> {
                 },
               ),
 
-              const SizedBox(height: 24),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.main,
-                  minimumSize: Size(width, 55),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                onPressed: () => addEvent(),
-                child: Text(
-                  AppLocalizations.of(context)!.add_event,
-                  style: AppStyles.regular18White,
-                ),
-              ),
+               const SizedBox(height: 24),
+               ElevatedButton(
+                 style: ElevatedButton.styleFrom(
+                   backgroundColor: AppColors.main,
+                   minimumSize: Size(width, 55),
+                   shape: RoundedRectangleBorder(
+                     borderRadius: BorderRadius.circular(16),
+                   ),
+                 ),
+                 onPressed: isLoading 
+                   ? null 
+                   : () => _submitEvent(context, eventCategories),
+                 child: isLoading
+                     ? SizedBox(
+                         height: 24,
+                         width: 24,
+                         child: CircularProgressIndicator(
+                           valueColor: AlwaysStoppedAnimation<Color>(
+                             AppColors.white,
+                           ),
+                           strokeWidth: 2,
+                         ),
+                       )
+                     : Text(
+                         AppLocalizations.of(context)!.add_event,
+                         style: AppStyles.regular18White,
+                       ),
+               ),
             ],
           ),
         ),
@@ -296,21 +299,119 @@ class _AddEventState extends State<AddEvent> {
       ],
     );
   }
-  void addEvent() async {
-    if (formKey.currentState?.validate() == true) {
-      Event event = Event(
-        eventTitle: title,
-        eventName: selectedEventName,
-        eventDescription: description,
-        eventImage: selectedEventImage,
-        eventDate: selectedDate!,
-        eventTime: selectedEventTime,
+
+  Future<void> _submitEvent(BuildContext context, List<String> eventCategories) async {
+    if (isLoading) return;
+    
+    if (formKey.currentState!.validate() != true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill in all required fields'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    if (selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a date'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    if (selectedTime == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select a time'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      // Get the current user from Firebase Auth
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser == null) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Please sign in first'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        setState(() => isLoading = false);
+        return;
+      }
+
+      // Create event object
+      final event = Event(
+        title: titleController.text.trim(),
+        description: descriptionController.text.trim(),
+        category: eventCategories[selectedIndex],
+        date: selectedDate!,
+        time: selectedTime!,
+        userId: currentUser.uid,
       );
 
-      await FirebaseUtils.addEventsToFireStore(event);
-eventListProvider.getEventsFromFireStore();
-      Navigator.pop(context);
+      // Get the EventListProvider and add the event
+      if (mounted) {
+        final eventProvider = Provider.of<EventListProvider>(context, listen: false);
+        final success = await eventProvider.addEvent(event);
+
+        setState(() => isLoading = false);
+
+        if (success) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Event added successfully!'),
+                backgroundColor: Colors.green,
+              ),
+            );
+            // Clear controllers
+            titleController.clear();
+            descriptionController.clear();
+            selectedDate = null;
+            selectedTime = null;
+            selectedIndex = 0;
+            setState(() {});
+
+            // Navigate back after a short delay
+            Future.delayed(const Duration(milliseconds: 800), () {
+              if (mounted) Navigator.pop(context);
+            });
+          }
+        } else {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  eventProvider.error ?? 'Failed to add event. Please try again.',
+                ),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        }
+      }
+    } catch (e) {
+      setState(() => isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
-  }
-
+}
