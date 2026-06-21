@@ -1,5 +1,5 @@
-import 'package:evently_app/core/app_colors.dart';
-import 'package:evently_app/core/app_style.dart';
+import 'package:evently_app/core/utils/app_colors.dart';
+import 'package:evently_app/core/utils/app_style.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/features/home_screen/tabs/home/widgets/event_item.dart';
 import 'package:evently_app/features/home_screen/tabs/home/widgets/tab_widget.dart';
@@ -7,10 +7,10 @@ import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../providers/event_list_provider.dart';
+import 'package:evently_app/providers/event_list_provider.dart';
 
 class HomeTab extends StatefulWidget {
-  HomeTab({super.key});
+  const HomeTab({super.key});
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -18,11 +18,9 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   int selectedIndex = 0;
-  List<String> eventsNameList = [];
 
   @override
   Widget build(BuildContext context) {
-    final width = context.width;
     final height = context.height;
 
     final eventCategories = [

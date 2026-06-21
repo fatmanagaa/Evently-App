@@ -3,10 +3,10 @@ import 'package:evently_app/features/auth/resgister/register_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/app_assets.dart';
-import '../../../core/app_colors.dart';
-import '../../../core/app_routes.dart';
-import '../../../core/app_style.dart';
+import '../../../core/utils/app_assets.dart';
+import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_routes.dart';
+import '../../../core/utils/app_style.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/app_theme_provider.dart';
 import '../../home_screen/widgets/custom_text_field.dart';

@@ -1,9 +1,9 @@
-import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_style.dart';
+import 'package:evently_app/core/utils/app_assets.dart';
+import 'package:evently_app/core/utils/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import '../../../../../core/app_colors.dart';
+import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/extensions/context_extensions.dart';
 import '../../../../../providers/event_list_provider.dart';
 

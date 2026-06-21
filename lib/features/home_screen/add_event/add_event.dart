@@ -1,6 +1,6 @@
-import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/core/app_colors.dart';
-import 'package:evently_app/core/app_style.dart';
+import 'package:evently_app/core/utils/app_assets.dart';
+import 'package:evently_app/core/utils/app_colors.dart';
+import 'package:evently_app/core/utils/app_style.dart';
 import 'package:evently_app/core/extensions/context_extensions.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/app_theme_provider.dart';
 import '../../../providers/event_list_provider.dart';
 
 class AddEvent extends StatefulWidget {
@@ -57,8 +56,7 @@ class _AddEventState extends State<AddEvent> {
   Widget build(BuildContext context) {
     final height = context.height;
     final width = context.width;
-    var themeProvider = Provider.of<AppThemeProvider>(context);
-    
+
     final List<String> eventCategories = [
       AppLocalizations.of(context)!.book_club,
       AppLocalizations.of(context)!.sports,
